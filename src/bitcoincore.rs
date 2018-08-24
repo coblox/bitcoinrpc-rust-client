@@ -1,4 +1,4 @@
-use jsonrpc::{
+use jsonrpc_client::{
     header::{Authorization, Basic, Headers},
     HTTPClient, HTTPError, JsonRpcVersion, RpcClient, RpcError, RpcRequest,
 };

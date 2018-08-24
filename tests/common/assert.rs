@@ -1,7 +1,7 @@
 use bitcoin_rpc_client::BitcoinCoreClient;
 use coblox_bitcoincore::BitcoinCore;
-use jsonrpc::HTTPError;
-use jsonrpc::RpcError;
+use jsonrpc_client::HTTPError;
+use jsonrpc_client::RpcError;
 use std::fmt::Debug;
 use testcontainers::{clients::DockerCli, Docker};
 

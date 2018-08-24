@@ -1,6 +1,6 @@
 extern crate bitcoin_rpc_client;
 extern crate coblox_bitcoincore;
-extern crate jsonrpc;
+extern crate jsonrpc_client;
 #[macro_use]
 extern crate log;
 extern crate testcontainers;
