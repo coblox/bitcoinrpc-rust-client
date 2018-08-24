@@ -24,7 +24,7 @@ impl Hash for Address {
 }
 
 impl FromStr for Address {
-    type Err = bitcoin::util::Error;
+    type Err = bitcoin::network::serialize::Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         BitcoinAddress::from_str(s).and_then(|address| Ok(Address(address)))
@@ -76,8 +76,7 @@ impl<'de> Deserialize<'de> for Address {
             where
                 E: de::Error,
             {
-                let address =
-                    BitcoinAddress::from_str(v).map_err(|err| E::custom(format!("{}", err)))?;
+                let address = BitcoinAddress::from_str(v).map_err(E::custom)?;
                 Ok(Address(address))
             }
         }

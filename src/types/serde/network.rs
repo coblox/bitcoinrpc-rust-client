@@ -21,7 +21,7 @@ where
         {
             match value {
                 "test" => Ok(Network::Testnet),
-                "regtest" => Ok(Network::BitcoinCoreRegtest),
+                "regtest" => Ok(Network::Regtest),
                 "main" => Ok(Network::Bitcoin),
                 _ => Err(E::custom(format!("Unexpect value for Network: {}", value))),
             }
