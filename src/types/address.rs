@@ -38,9 +38,9 @@ impl From<BitcoinAddress> for Address {
     }
 }
 
-impl Into<BitcoinAddress> for Address {
-    fn into(self) -> BitcoinAddress {
-        self.0
+impl From<Address> for BitcoinAddress {
+    fn from(address: Address) -> BitcoinAddress {
+        address.0
     }
 }
 

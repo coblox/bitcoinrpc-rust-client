@@ -10,7 +10,15 @@ where
     I: Fn(&BitcoinCoreClient) -> Result<RpcResponse<R>, HTTPError>,
 {
     let container = DockerCli::new().run(BitcoinCore::default());
-    let client = container.connect::<BitcoinCoreClient>();
+    let client = container.connect(|container| {
+        let host_port = container.get_host_port(18443).unwrap();
+
+        let url = format!("http://localhost:{}", host_port);
+
+        let auth = container.image().auth();
+
+        BitcoinCoreClient::new(url.as_str(), auth.username(), auth.password())
+    });
 
     let result = invocation(&client).unwrap().into_result();
 

@@ -176,11 +176,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     }
 
     fn get_block_count(&self) -> Result<RpcResponse<BlockHeight>, HTTPError> {
-        self.send(&RpcRequest::new0(
-            JsonRpcVersion::V1,
-            "42",
-            "getblockcount",
-        ))
+        self.send(&RpcRequest::new0(JsonRpcVersion::V1, "42", "getblockcount"))
     }
 
     fn get_new_address(&self) -> Result<RpcResponse<Address>, HTTPError> {
