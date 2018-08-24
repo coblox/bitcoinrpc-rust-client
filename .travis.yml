@@ -3,6 +3,7 @@ cache: cargo
 rust: stable
 before_script:
   - rustup component add rustfmt-preview
+  - docker pull coblox/bitcoin-core:0.16.1-r2
 script:
 - cargo fmt -- --check
 - cargo build --all

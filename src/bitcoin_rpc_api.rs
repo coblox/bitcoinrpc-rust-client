@@ -1,5 +1,6 @@
 use bitcoincore::TxOutConfirmations;
-use jsonrpc::{HTTPError, RpcResponse};
+use jsonrpc::HTTPError;
+use jsonrpc::RpcError;
 use types::*;
 
 pub trait BitcoinRpcApi: Send + Sync {
@@ -9,7 +10,7 @@ pub trait BitcoinRpcApi: Send + Sync {
         &self,
         number_of_required_signatures: u32,
         participants: Vec<&Address>,
-    ) -> Result<RpcResponse<MultiSigAddress>, HTTPError>;
+    ) -> Result<Result<MultiSigAddress, RpcError>, HTTPError>;
 
     // TODO: abandontransaction
     // TODO: addmultisigaddress
@@ -24,18 +25,21 @@ pub trait BitcoinRpcApi: Send + Sync {
         &self,
         inputs: Vec<&NewTransactionInput>,
         output: &NewTransactionOutput,
-    ) -> Result<RpcResponse<SerializedRawTransaction>, HTTPError>;
+    ) -> Result<Result<SerializedRawTransaction, RpcError>, HTTPError>;
 
     fn decode_rawtransaction(
         &self,
         tx: SerializedRawTransaction,
-    ) -> Result<RpcResponse<DecodedRawTransaction>, HTTPError>;
+    ) -> Result<Result<DecodedRawTransaction, RpcError>, HTTPError>;
 
-    fn decode_script(&self, script: RedeemScript) -> Result<RpcResponse<DecodedScript>, HTTPError>;
+    fn decode_script(
+        &self,
+        script: RedeemScript,
+    ) -> Result<Result<DecodedScript, RpcError>, HTTPError>;
 
     // TODO: disconnectnode
 
-    fn dump_privkey(&self, address: &Address) -> Result<RpcResponse<PrivateKey>, HTTPError>;
+    fn dump_privkey(&self, address: &Address) -> Result<Result<PrivateKey, RpcError>, HTTPError>;
 
     // TODO: dumpwallet
     // TODO: encryptwallet
@@ -46,25 +50,28 @@ pub trait BitcoinRpcApi: Send + Sync {
         &self,
         tx: &SerializedRawTransaction,
         options: &FundingOptions,
-    ) -> Result<RpcResponse<FundingResult>, HTTPError>;
+    ) -> Result<Result<FundingResult, RpcError>, HTTPError>;
 
-    fn generate(&self, number_of_blocks: u32) -> Result<RpcResponse<Vec<BlockHash>>, HTTPError>;
+    fn generate(
+        &self,
+        number_of_blocks: u32,
+    ) -> Result<Result<Vec<BlockHash>, RpcError>, HTTPError>;
 
     // TODO: generatetoaddress
     // TODO: getaccountaddress
 
-    fn get_account(&self, address: &Address) -> Result<RpcResponse<Account>, HTTPError>;
+    fn get_account(&self, address: &Address) -> Result<Result<Account, RpcError>, HTTPError>;
 
     // TODO: getaddednodeinfo
     // TODO: getaddressesbyaccount
     // TODO: getbalance
     // TODO: getbestblockhash
 
-    fn get_block(&self, header_hash: &BlockHash) -> Result<RpcResponse<Block>, HTTPError>;
+    fn get_block(&self, header_hash: &BlockHash) -> Result<Result<Block, RpcError>, HTTPError>;
 
-    fn get_blockchain_info(&self) -> Result<RpcResponse<BlockchainInfo>, HTTPError>;
+    fn get_blockchain_info(&self) -> Result<Result<BlockchainInfo, RpcError>, HTTPError>;
 
-    fn get_block_count(&self) -> Result<RpcResponse<BlockHeight>, HTTPError>;
+    fn get_block_count(&self) -> Result<Result<BlockHeight, RpcError>, HTTPError>;
 
     // TODO: getblockhash
     // TODO: getblockheader
@@ -85,7 +92,7 @@ pub trait BitcoinRpcApi: Send + Sync {
     // TODO: getnetworkhashesps
     // TODO: getnetworkinfo
 
-    fn get_new_address(&self) -> Result<RpcResponse<Address>, HTTPError>;
+    fn get_new_address(&self) -> Result<Result<Address, RpcError>, HTTPError>;
 
     // TODO: getpeerinfo
     // TODO: getrawchangeaddress
@@ -94,17 +101,20 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn get_raw_transaction_serialized(
         &self,
         tx: &TransactionId,
-    ) -> Result<RpcResponse<SerializedRawTransaction>, HTTPError>;
+    ) -> Result<Result<SerializedRawTransaction, RpcError>, HTTPError>;
 
     fn get_raw_transaction_verbose(
         &self,
         tx: &TransactionId,
-    ) -> Result<RpcResponse<VerboseRawTransaction>, HTTPError>;
+    ) -> Result<Result<VerboseRawTransaction, RpcError>, HTTPError>;
 
     // TODO: getreceivedbyaccount
     // TODO: getreceivedbyaddress
 
-    fn get_transaction(&self, tx: &TransactionId) -> Result<RpcResponse<Transaction>, HTTPError>;
+    fn get_transaction(
+        &self,
+        tx: &TransactionId,
+    ) -> Result<Result<Transaction, RpcError>, HTTPError>;
 
     // TODO: gettxout
     // TODO: gettxoutsetinfo
@@ -133,7 +143,7 @@ pub trait BitcoinRpcApi: Send + Sync {
         min_confirmations: TxOutConfirmations,
         max_confirmations: Option<u32>,
         recipients: Option<Vec<Address>>,
-    ) -> Result<RpcResponse<Vec<UnspentTransactionOutput>>, HTTPError>;
+    ) -> Result<Result<Vec<UnspentTransactionOutput>, RpcError>, HTTPError>;
 
     // TODO: lockunspent
     // TODO: move
@@ -148,13 +158,13 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn send_raw_transaction(
         &self,
         tx_data: SerializedRawTransaction,
-    ) -> Result<RpcResponse<TransactionId>, HTTPError>;
+    ) -> Result<Result<TransactionId, RpcError>, HTTPError>;
 
     fn send_to_address(
         &self,
         address: &Address,
         amount: f64,
-    ) -> Result<RpcResponse<TransactionId>, HTTPError>;
+    ) -> Result<Result<TransactionId, RpcError>, HTTPError>;
     // TODO: setaccount
     // TODO: setban
     // TODO: setgenerate
@@ -169,7 +179,7 @@ pub trait BitcoinRpcApi: Send + Sync {
         dependencies: Option<Vec<&TransactionOutputDetail>>,
         private_keys: Option<Vec<&PrivateKey>>,
         signature_hash_type: Option<SigHashType>,
-    ) -> Result<RpcResponse<SigningResult>, HTTPError>;
+    ) -> Result<Result<SigningResult, RpcError>, HTTPError>;
 
     // TODO: stop
     // TODO: submitblock
@@ -177,7 +187,7 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn validate_address(
         &self,
         address: &Address,
-    ) -> Result<RpcResponse<AddressValidationResult>, HTTPError>;
+    ) -> Result<Result<AddressValidationResult, RpcError>, HTTPError>;
 
     // TODO: verifychain
     // TODO: verifymessage

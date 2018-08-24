@@ -2,6 +2,18 @@
 
 This crate provides a Rust interface to the Bitcoin Core RPC API.
 
+It is currently work-in-progress as not all RPC calls are implemented.
+
+## Features
+
+- Does not use macros
+- Automatic retry mechanism if bitcoin-core is not yet ready
+- Provides trait of all RPC methods for easy mocking (`BitcoinRpcApi`)
+
+## Usage
+
+Check `examples/` but basically, given a URL and the username/password for the node, you can construct a client and call the desired RPC method.
+
 ## License
 
 Licensed under either of

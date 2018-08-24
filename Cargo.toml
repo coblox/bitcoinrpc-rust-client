@@ -11,7 +11,7 @@ authors = [
 [dependencies]
 bitcoin = { git = "https://github.com/coblox/rust-bitcoin.git", branch = "bitcoincore-regtest" }
 hex = "0.3.2"
-jsonrpc = { git = "ssh://git@github.com/coblox/jsonrpc_rust_client.git", tag = "v0.1.0" }
+jsonrpc = { git = "https://github.com/coblox/jsonrpc_rust_client.git", tag = "v0.2.0" }
 serde_json = "1.0.22"
 serde_derive = "1.0.66"
 serde = "1.0.66"
@@ -20,5 +20,5 @@ log = "0.4.3"
 
 [dev-dependencies]
 env_logger = "0.5.10"
-coblox_bitcoincore = { git = "ssh://git@github.com/coblox/testcontainers-rs.git" }
-testcontainers = { git = "ssh://git@github.com/coblox/testcontainers-rs.git" }
+coblox_bitcoincore = { git = "https://github.com/coblox/testcontainers-rs.git", tag = "v0.1.0" }
+testcontainers = { git = "https://github.com/coblox/testcontainers-rs.git", tag = "v0.1.0" }
