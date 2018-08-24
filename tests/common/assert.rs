@@ -1,8 +1,8 @@
 use bitcoin_rpc_client::BitcoinCoreClient;
-use coblox_bitcoincore::BitcoinCore;
 use jsonrpc_client::HTTPError;
 use jsonrpc_client::RpcError;
 use std::fmt::Debug;
+use tc_coblox_bitcoincore::BitcoinCore;
 use testcontainers::{clients::DockerCli, Docker};
 
 pub fn assert_successful_result<R, I>(invocation: I)
