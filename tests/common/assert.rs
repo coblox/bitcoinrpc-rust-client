@@ -1,4 +1,4 @@
-use bitcoin_rpc::BitcoinCoreClient;
+use bitcoin_rpc_client::BitcoinCoreClient;
 use coblox_bitcoincore::BitcoinCore;
 use jsonrpc::HTTPError;
 use jsonrpc::RpcError;

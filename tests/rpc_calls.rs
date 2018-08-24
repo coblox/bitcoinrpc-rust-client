@@ -1,4 +1,4 @@
-extern crate bitcoin_rpc;
+extern crate bitcoin_rpc_client;
 extern crate coblox_bitcoincore;
 extern crate jsonrpc;
 #[macro_use]
@@ -7,7 +7,7 @@ extern crate testcontainers;
 
 mod common;
 
-use bitcoin_rpc::*;
+use bitcoin_rpc_client::*;
 use common::{
     assert::assert_successful_result, test_client::BitcoinCoreTestClient, test_lifecycle::setup,
 };

@@ -1,4 +1,4 @@
-use bitcoin_rpc::*;
+use bitcoin_rpc_client::*;
 
 pub struct BitcoinCoreTestClient<'a> {
     pub client: &'a BitcoinCoreClient,

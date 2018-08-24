@@ -1,7 +1,7 @@
-extern crate bitcoin_rpc;
+extern crate bitcoin_rpc_client;
 
-use bitcoin_rpc::BitcoinCoreClient;
-use bitcoin_rpc::BitcoinRpcApi;
+use bitcoin_rpc_client::BitcoinCoreClient;
+use bitcoin_rpc_client::BitcoinRpcApi;
 use std::env::var;
 
 fn main() {
