@@ -1,8 +1,8 @@
-# Bitcoin Core RPC Client
+# Bitcoin RPC Client
 
 [![Build Status](https://travis-ci.com/coblox/bitcoincore-rpc_rust_client.svg?branch=master)](https://travis-ci.com/coblox/bitcoincore-rpc_rust_client)
 
-This crate provides a Rust interface to the Bitcoin Core RPC API.
+This crate provides a Rust interface to the Bitcoin JSON-RPC API.
 
 It is currently work-in-progress as not all RPC calls are implemented.
 
