@@ -1,10 +1,14 @@
 language: rust
-cache: cargo
+cache:
+  directories:
+  - "$HOME/.cargo"
+  - "$HOME/.cache/sccache"
 rust: stable
 before_script:
-  - rustup component add rustfmt-preview
-  - docker pull coblox/bitcoin-core:0.16.1-r2
+- rustup component add rustfmt-preview
+- docker pull coblox/bitcoin-core:0.16.1-r2
+- which sccache || cargo install sccache
 script:
 - cargo fmt -- --check
-- cargo build --all
-- cargo test --all
+- RUSTC_WRAPPER=~/.cargo/bin/sccache cargo build --all
+- RUSTC_WRAPPER=~/.cargo/bin/sccache cargo test --all
