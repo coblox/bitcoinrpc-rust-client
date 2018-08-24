@@ -1,7 +1,6 @@
 use bitcoin::{self, util::address::Address as BitcoinAddress};
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::{
-    convert::Into,
     fmt,
     hash::{Hash, Hasher},
     str::FromStr,

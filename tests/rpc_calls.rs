@@ -175,12 +175,7 @@ fn sign_raw_transaction() {
         let test_client = BitcoinCoreTestClient::new(client);
 
         let alice = test_client.an_address();
-        let alice_private_key = test_client
-            .client
-            .dump_privkey(&alice)
-            .unwrap()
-            .into_result()
-            .unwrap();
+        let alice_private_key = test_client.client.dump_privkey(&alice).unwrap().unwrap();
 
         let utxo = test_client.a_utxo();
 
@@ -192,7 +187,6 @@ fn sign_raw_transaction() {
             .client
             .create_raw_transaction(vec![&input], &map)
             .unwrap()
-            .into_result()
             .unwrap();
 
         client.sign_raw_transaction(
@@ -235,7 +229,6 @@ fn fund_raw_transaction() {
             .client
             .create_raw_transaction(Vec::new(), &outputs)
             .unwrap()
-            .into_result()
             .unwrap();
         let options = FundingOptions::new();
 

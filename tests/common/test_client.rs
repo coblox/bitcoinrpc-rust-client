@@ -16,7 +16,6 @@ impl<'a> BitcoinCoreTestClient<'a> {
             .client
             .list_unspent(TxOutConfirmations::AtLeast(6), None, None)
             .unwrap()
-            .into_result()
             .unwrap();
 
         utxos.remove(0)
@@ -33,23 +32,18 @@ impl<'a> BitcoinCoreTestClient<'a> {
     }
 
     pub fn an_address(&self) -> Address {
-        self.client
-            .get_new_address()
-            .unwrap()
-            .into_result()
-            .unwrap()
+        self.client.get_new_address().unwrap().unwrap()
     }
 
     pub fn a_block(&self) -> Block {
         self.client
             .generate(101)
             .and_then(|response| {
-                let blocks = response.into_result().unwrap();
+                let blocks = response.unwrap();
                 let block = blocks.get(50).unwrap();
                 self.client.get_block(block)
             })
             .unwrap()
-            .into_result()
             .unwrap()
     }
 }

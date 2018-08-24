@@ -1,13 +1,14 @@
 use bitcoin_rpc::BitcoinCoreClient;
 use coblox_bitcoincore::BitcoinCore;
-use jsonrpc::{HTTPError, RpcResponse};
+use jsonrpc::HTTPError;
+use jsonrpc::RpcError;
 use std::fmt::Debug;
 use testcontainers::{clients::DockerCli, Docker};
 
 pub fn assert_successful_result<R, I>(invocation: I)
 where
     R: Debug,
-    I: Fn(&BitcoinCoreClient) -> Result<RpcResponse<R>, HTTPError>,
+    I: Fn(&BitcoinCoreClient) -> Result<Result<R, RpcError>, HTTPError>,
 {
     let container = DockerCli::new().run(BitcoinCore::default());
     let client = container.connect(|container| {
@@ -20,15 +21,17 @@ where
         BitcoinCoreClient::new(url.as_str(), auth.username(), auth.password())
     });
 
-    let result = invocation(&client).unwrap().into_result();
-
-    if result.is_err() {
-        error!("{:?}", result.unwrap_err());
-        panic!("Result should be successful")
-    } else {
-        // Having a successful result means:
-        // - No HTTP Error occured
-        // - No deserialization error occured
-        debug!("{:?}", result.unwrap())
+    match invocation(&client) {
+        Ok(Ok(result)) => {
+            // Having a successful result means:
+            // - No HTTP Error occured
+            // - No deserialization error occured
+            debug!("Returned result: {:?}", result)
+        }
+        Ok(Err(rpc_error)) => panic!(
+            "Network call was successful but node returned rpc-error: {:?}",
+            rpc_error
+        ),
+        Err(http_error) => panic!("Failed to connect to node: {:?}", http_error),
     }
 }
