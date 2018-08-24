@@ -14,7 +14,7 @@ use common::{
 use std::collections::HashMap;
 
 #[test]
-fn test_add_multisig_address() {
+fn add_multisig_address() {
     setup();
 
     assert_successful_result(|client| {
@@ -28,31 +28,31 @@ fn test_add_multisig_address() {
 }
 
 #[test]
-fn test_get_block_count() {
+fn get_block_count() {
     setup();
     assert_successful_result(BitcoinCoreClient::get_block_count)
 }
 
 #[test]
-fn test_get_blockchain_info() {
+fn get_blockchain_info() {
     setup();
     assert_successful_result(BitcoinCoreClient::get_blockchain_info)
 }
 
 #[test]
-fn test_get_new_address() {
+fn get_new_address() {
     setup();
     assert_successful_result(BitcoinCoreClient::get_new_address)
 }
 
 #[test]
-fn test_generate() {
+fn generate() {
     setup();
     assert_successful_result(|client| client.generate(1))
 }
 
 #[test]
-fn test_getaccount() {
+fn getaccount() {
     setup();
 
     assert_successful_result(|client| {
@@ -63,7 +63,7 @@ fn test_getaccount() {
 }
 
 #[test]
-fn test_listunspent() {
+fn listunspent() {
     setup();
     assert_successful_result(|client| {
         let _ = client.generate(101);
@@ -72,7 +72,7 @@ fn test_listunspent() {
 }
 
 #[test]
-fn test_gettransaction() {
+fn gettransaction() {
     setup();
 
     assert_successful_result(|client| {
@@ -83,7 +83,7 @@ fn test_gettransaction() {
 }
 
 #[test]
-fn test_getblock() {
+fn getblock() {
     setup();
 
     assert_successful_result(|client| {
@@ -94,7 +94,7 @@ fn test_getblock() {
 }
 
 #[test]
-fn test_validate_address() {
+fn validate_address() {
     setup();
 
     assert_successful_result(|client| {
@@ -105,7 +105,7 @@ fn test_validate_address() {
 }
 
 #[test]
-fn test_get_raw_transaction_serialized() {
+fn get_raw_transaction_serialized() {
     setup();
 
     assert_successful_result(|client| {
@@ -116,7 +116,7 @@ fn test_get_raw_transaction_serialized() {
 }
 
 #[test]
-fn test_decode_script() {
+fn decode_script() {
     setup();
 
     assert_successful_result(|client| {
@@ -125,7 +125,7 @@ fn test_decode_script() {
 }
 
 #[test]
-fn test_decode_rawtransaction() {
+fn decode_rawtransaction() {
     setup();
 
     assert_successful_result(|client| {
@@ -134,7 +134,7 @@ fn test_decode_rawtransaction() {
 }
 
 #[test]
-fn test_create_raw_transaction() {
+fn create_raw_transaction() {
     setup();
 
     assert_successful_result(|client| {
@@ -154,7 +154,7 @@ fn test_create_raw_transaction() {
 }
 
 #[test]
-fn test_dump_privkey() {
+fn dump_privkey() {
     setup();
 
     assert_successful_result(|client| {
@@ -167,7 +167,7 @@ fn test_dump_privkey() {
 }
 
 #[test]
-fn test_sign_raw_transaction() {
+fn sign_raw_transaction() {
     setup();
 
     // Note: The signing actually fails but this way, we get to test the deserialization of the datastructures
@@ -205,7 +205,7 @@ fn test_sign_raw_transaction() {
 }
 
 #[test]
-fn test_send_to_address() {
+fn send_to_address() {
     setup();
 
     assert_successful_result(|client| {
@@ -218,7 +218,7 @@ fn test_send_to_address() {
 }
 
 #[test]
-fn test_fund_raw_transaction() {
+fn fund_raw_transaction() {
     setup();
 
     assert_successful_result(|client| {
