@@ -87,7 +87,6 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         inputs: Vec<&NewTransactionInput>,
         output: &NewTransactionOutput,
     ) -> Result<RpcResponse<SerializedRawTransaction>, HTTPError> {
-        //TODO: Should we add a check for inputs to cleanly exist?
         self.send(&RpcRequest::new2(
             JsonRpcVersion::V1,
             "test",
