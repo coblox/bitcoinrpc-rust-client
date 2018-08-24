@@ -16,7 +16,7 @@ keywords = ["bitcoin", "rpc", "client"]
 [dependencies]
 bitcoin = "0.14.0"
 hex = "0.3.2"
-jsonrpc = { git = "https://github.com/coblox/jsonrpc_rust_client.git", tag = "v0.2.0" }
+jsonrpc_client = "0.1.0"
 serde_json = "1.0.22"
 serde_derive = "1.0.66"
 serde = "1.0.66"

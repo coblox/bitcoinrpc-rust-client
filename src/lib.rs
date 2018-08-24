@@ -1,6 +1,6 @@
 extern crate bitcoin;
 extern crate hex as std_hex;
-extern crate jsonrpc;
+extern crate jsonrpc_client;
 #[macro_use]
 extern crate log;
 extern crate rustc_serialize;
@@ -16,7 +16,7 @@ mod types;
 
 pub use bitcoin_rpc_api::*;
 pub use bitcoincore::*;
-pub use jsonrpc::RpcError;
+pub use jsonrpc_client::RpcError;
 pub use rustc_serialize::hex;
 pub use stub_rpc_client::*;
 pub use types::*;
