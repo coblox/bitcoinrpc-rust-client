@@ -124,7 +124,7 @@ mod tests {
         assert_eq!(
             blockchain,
             BlockchainInfo {
-                chain: Network::BitcoinCoreRegtest,
+                chain: Network::Regtest,
                 blocks: 0,
                 headers: 0,
                 bestblockhash: String::from(
