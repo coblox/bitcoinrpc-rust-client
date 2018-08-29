@@ -1,3 +1,5 @@
+#![cfg_attr(test, deny(warnings))]
+
 extern crate bitcoin;
 extern crate hex as std_hex;
 extern crate jsonrpc_client;
