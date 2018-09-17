@@ -42,8 +42,7 @@ impl<'a> BitcoinCoreTestClient<'a> {
                 let blocks = response.unwrap();
                 let block = blocks.get(50).unwrap();
                 self.client.get_block(block)
-            })
-            .unwrap()
+            }).unwrap()
             .unwrap()
     }
 }
