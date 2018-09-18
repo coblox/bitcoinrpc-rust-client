@@ -348,19 +348,37 @@ pub struct SigningResult {
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct FundingOptions {
-    #[serde(rename = "changeAddress", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "changeAddress",
+        skip_serializing_if = "Option::is_none"
+    )]
     change_address: Option<Address>,
-    #[serde(rename = "changePosition", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "changePosition",
+        skip_serializing_if = "Option::is_none"
+    )]
     change_position: Option<u32>,
-    #[serde(rename = "includeWatching", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "includeWatching",
+        skip_serializing_if = "Option::is_none"
+    )]
     include_watching: Option<bool>,
-    #[serde(rename = "lockUnspents", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "lockUnspents",
+        skip_serializing_if = "Option::is_none"
+    )]
     lock_unspents: Option<bool>,
-    #[serde(rename = "reserveChangeKey", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "reserveChangeKey",
+        skip_serializing_if = "Option::is_none"
+    )]
     reserve_change_key: Option<bool>,
     #[serde(rename = "feeRate", skip_serializing_if = "Option::is_none")]
     fee_rate: Option<u32>,
-    #[serde(rename = "subtractFeeFromOutputs", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "subtractFeeFromOutputs",
+        skip_serializing_if = "Option::is_none"
+    )]
     subtract_fee_from_outputs: Option<Vec<u32>>,
 }
 
