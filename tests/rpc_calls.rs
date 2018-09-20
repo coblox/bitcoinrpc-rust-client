@@ -94,6 +94,28 @@ fn getblock() {
 }
 
 #[test]
+fn getbestblockhash() {
+    setup();
+
+    assert_successful_result(|client| {
+        BitcoinCoreTestClient::new(client).a_block();
+
+        client.get_best_block_hash()
+    })
+}
+
+#[test]
+fn getblockhash() {
+    setup();
+
+    assert_successful_result(|client| {
+        BitcoinCoreTestClient::new(client).a_block_hash();
+
+        client.get_block_hash(50)
+    })
+}
+
+#[test]
 fn validate_address() {
     setup();
 
