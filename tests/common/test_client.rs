@@ -35,7 +35,7 @@ impl<'a> BitcoinCoreTestClient<'a> {
         self.client.get_new_address().unwrap().unwrap()
     }
 
-    pub fn a_block(&self) -> Block {
+    pub fn a_block(&self) -> Block<TransactionId> {
         self.client
             .generate(101)
             .and_then(|response| {
