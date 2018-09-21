@@ -20,26 +20,26 @@ impl From<BlockHeight> for u32 {
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
-pub struct Block {
+pub struct Block<T> {
     pub hash: BlockHash,
-    confirmations: i32,
-    size: u32,
-    strippedsize: u32,
-    weight: u32,
-    height: u32,
-    version: u32,
+    pub confirmations: i32,
+    pub size: u32,
+    pub strippedsize: u32,
+    pub weight: u32,
+    pub height: u32,
+    pub version: u32,
     #[serde(rename = "versionHex")]
-    version_hex: String,
-    merkleroot: String,
-    pub tx: Vec<TransactionId>,
-    time: u64,
-    mediantime: u64,
-    nonce: u32,
-    bits: String,
-    difficulty: f64,
-    chainwork: String,
-    previousblockhash: Option<BlockHash>,
-    nextblockhash: Option<BlockHash>,
+    pub version_hex: String,
+    pub merkleroot: String,
+    pub tx: Vec<T>,
+    pub time: u64,
+    pub mediantime: u64,
+    pub nonce: u32,
+    pub bits: String,
+    pub difficulty: f64,
+    pub chainwork: String,
+    pub previousblockhash: Option<BlockHash>,
+    pub nextblockhash: Option<BlockHash>,
 }
 
 #[cfg(test)]
@@ -72,7 +72,7 @@ mod tests {
 	"previousblockhash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
 	"nextblockhash": "000000006a625f06636b8bb6ac7b960a8d03705d1ace08b1a19da3fdcc99ddbd"
 }"#;
-        let block: Block = serde_json::from_str(json).unwrap();
+        let block: Block<TransactionId> = serde_json::from_str(json).unwrap();
 
         assert_eq!(
             block,

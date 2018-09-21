@@ -160,28 +160,28 @@ impl From<BitcoinTransaction> for SerializedRawTransaction {
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct Transaction {
-    amount: f64,
-    fee: Option<f64>,
-    confirmations: u32,
-    generated: Option<bool>,
-    blockhash: Option<BlockHash>,
+    pub amount: f64,
+    pub fee: Option<f64>,
+    pub confirmations: u32,
+    pub generated: Option<bool>,
+    pub blockhash: Option<BlockHash>,
     /// Unix Timestamp
-    blocktime: Option<u64>,
+    pub blocktime: Option<u64>,
     /// Unix Timestamp
-    blockindex: Option<u64>,
-    walletconflicts: Vec<TransactionId>,
-    txid: TransactionId,
+    pub blockindex: Option<u64>,
+    pub walletconflicts: Vec<TransactionId>,
+    pub txid: TransactionId,
     /// Unix Timestamp
-    time: u64,
+    pub time: u64,
     /// Unix Timestamp
-    timereceived: u64,
-    comment: Option<String>,
-    to: Option<String>,
+    pub timereceived: u64,
+    pub comment: Option<String>,
+    pub to: Option<String>,
     #[serde(rename = "bip125-replaceable")]
     /// yes|no|unknown: TODO: Create enum if needed
-    bip125_replaceable: String,
-    details: Vec<Detail>,
-    hex: SerializedRawTransaction,
+    pub bip125_replaceable: String,
+    pub details: Vec<Detail>,
+    pub hex: SerializedRawTransaction,
 }
 
 #[derive(Deserialize, Serialize, Debug)]

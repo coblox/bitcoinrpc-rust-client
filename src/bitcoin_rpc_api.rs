@@ -87,7 +87,18 @@ pub trait BitcoinRpcApi: Send + Sync {
         unimplemented!()
     }
 
-    fn get_block(&self, header_hash: &BlockHash) -> Result<Result<Block, RpcError>, HTTPError> {
+    fn get_block(
+        &self,
+        header_hash: &BlockHash,
+    ) -> Result<Result<Block<TransactionId>, RpcError>, HTTPError> {
+        unimplemented!()
+    }
+
+    // TODO(evg): add verbosity param to get_block instead of separate methods?
+    fn get_block_verbose(
+        &self,
+        header_hash: &BlockHash,
+    ) -> Result<Result<Block<DecodedRawTransaction>, RpcError>, HTTPError> {
         unimplemented!()
     }
 

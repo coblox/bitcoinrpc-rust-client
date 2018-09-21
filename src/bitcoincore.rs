@@ -172,12 +172,28 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn get_block(&self, header_hash: &BlockHash) -> Result<Result<Block, RpcError>, HTTPError> {
+    fn get_block(
+        &self,
+        header_hash: &BlockHash,
+    ) -> Result<Result<Block<TransactionId>, RpcError>, HTTPError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
             "getblock",
             header_hash,
+        ))
+    }
+
+    fn get_block_verbose(
+        &self,
+        header_hash: &BlockHash,
+    ) -> Result<Result<Block<DecodedRawTransaction>, RpcError>, HTTPError> {
+        self.send(&RpcRequest::new2(
+            JsonRpcVersion::V1,
+            "42",
+            "getblock",
+            header_hash,
+            2,
         ))
     }
 
