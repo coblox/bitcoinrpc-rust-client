@@ -85,17 +85,6 @@ impl<'de> Deserialize<'de> for Address {
     }
 }
 
-impl Address {
-    pub fn to_address(&self) -> BitcoinAddress {
-        self.0.clone()
-    }
-
-    // TODO: trash this method in favor of to_address
-    pub fn to_bitcoin_address(&self) -> Result<BitcoinAddress, bitcoin::util::Error> {
-        Ok(self.0.clone())
-    }
-}
-
 impl fmt::Display for Address {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         fmt.write_str(self.0.to_string().as_str())
@@ -353,4 +342,40 @@ mod tests {
         assert_eq!(address, de_addr);
     }
 
+    #[test]
+    fn from_bitcoin_address_to_address() {
+        let bitcoin_address =
+            BitcoinAddress::from_str("mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn").unwrap();
+
+        let address: Address = Address::from(bitcoin_address.clone());
+
+        assert_eq!(address, Address(bitcoin_address));
+    }
+
+    #[test]
+    fn into_address_from_bitcoin_address() {
+        let bitcoin_address =
+            BitcoinAddress::from_str("mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn").unwrap();
+
+        let address: Address = bitcoin_address.clone().into();
+
+        assert_eq!(address, Address(bitcoin_address));
+    }
+
+    #[test]
+    fn from_address_to_bitcoin_address() {
+        let address = Address::from_str("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa").unwrap();
+
+        let bitcoin_address: BitcoinAddress = BitcoinAddress::from(address.clone());
+
+        assert_eq!(bitcoin_address, address.0);
+    }
+    #[test]
+    fn into_bitcoin_address_from_address() {
+        let address = Address::from_str("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa").unwrap();
+
+        let bitcoin_address: BitcoinAddress = address.clone().into();
+
+        assert_eq!(bitcoin_address, address.0);
+    }
 }
