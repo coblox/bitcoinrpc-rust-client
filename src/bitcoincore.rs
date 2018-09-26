@@ -31,7 +31,8 @@ impl BitcoinCoreClient {
             HeaderValue::from_str(&format!(
                 "Basic {}",
                 base64::encode(&format!("{}:{}", username, password))
-            )).unwrap(),
+            ))
+            .unwrap(),
         );
 
         let client = HTTPClient::builder()
@@ -170,6 +171,22 @@ impl BitcoinRpcApi for BitcoinCoreClient {
             "42",
             "getaccount",
             address,
+        ))
+    }
+
+    fn get_balance(
+        &self,
+        account: Option<String>,
+        minconf: u32,
+        include_watchonly: bool,
+    ) -> Result<Result<f32, RpcError>, ClientError> {
+        self.send(&RpcRequest::new3(
+            JsonRpcVersion::V1,
+            "42",
+            "getbalance",
+            account.unwrap_or("*".to_string()),
+            minconf,
+            include_watchonly,
         ))
     }
 
