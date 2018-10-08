@@ -2,16 +2,15 @@ extern crate bitcoin_rpc_client;
 extern crate jsonrpc_client;
 #[macro_use]
 extern crate log;
-extern crate tc_coblox_bitcoincore;
 extern crate testcontainers;
-
-mod common;
 
 use bitcoin_rpc_client::*;
 use common::{
     assert::assert_successful_result, test_client::BitcoinCoreTestClient, test_lifecycle::setup,
 };
 use std::collections::HashMap;
+
+mod common;
 
 #[test]
 fn add_multisig_address() {
