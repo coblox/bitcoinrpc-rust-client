@@ -1,5 +1,5 @@
 use bitcoincore::TxOutConfirmations;
-use jsonrpc_client::HTTPError;
+use jsonrpc_client::ClientError;
 use jsonrpc_client::RpcError;
 use types::*;
 
@@ -11,7 +11,7 @@ pub trait BitcoinRpcApi: Send + Sync {
         &self,
         number_of_required_signatures: u32,
         participants: Vec<&Address>,
-    ) -> Result<Result<MultiSigAddress, RpcError>, HTTPError> {
+    ) -> Result<Result<MultiSigAddress, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -28,27 +28,27 @@ pub trait BitcoinRpcApi: Send + Sync {
         &self,
         inputs: Vec<&NewTransactionInput>,
         output: &NewTransactionOutput,
-    ) -> Result<Result<SerializedRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<SerializedRawTransaction, RpcError>, ClientError> {
         unimplemented!()
     }
 
     fn decode_rawtransaction(
         &self,
         tx: SerializedRawTransaction,
-    ) -> Result<Result<DecodedRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<DecodedRawTransaction, RpcError>, ClientError> {
         unimplemented!()
     }
 
     fn decode_script(
         &self,
         script: RedeemScript,
-    ) -> Result<Result<DecodedScript, RpcError>, HTTPError> {
+    ) -> Result<Result<DecodedScript, RpcError>, ClientError> {
         unimplemented!()
     }
 
     // TODO: disconnectnode
 
-    fn dump_privkey(&self, address: &Address) -> Result<Result<PrivateKey, RpcError>, HTTPError> {
+    fn dump_privkey(&self, address: &Address) -> Result<Result<PrivateKey, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -61,21 +61,21 @@ pub trait BitcoinRpcApi: Send + Sync {
         &self,
         tx: &SerializedRawTransaction,
         options: &FundingOptions,
-    ) -> Result<Result<FundingResult, RpcError>, HTTPError> {
+    ) -> Result<Result<FundingResult, RpcError>, ClientError> {
         unimplemented!()
     }
 
     fn generate(
         &self,
         number_of_blocks: u32,
-    ) -> Result<Result<Vec<BlockHash>, RpcError>, HTTPError> {
+    ) -> Result<Result<Vec<BlockHash>, RpcError>, ClientError> {
         unimplemented!()
     }
 
     // TODO: generatetoaddress
     // TODO: getaccountaddress
 
-    fn get_account(&self, address: &Address) -> Result<Result<Account, RpcError>, HTTPError> {
+    fn get_account(&self, address: &Address) -> Result<Result<Account, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -83,14 +83,14 @@ pub trait BitcoinRpcApi: Send + Sync {
     // TODO: getaddressesbyaccount
     // TODO: getbalance
 
-    fn get_best_block_hash(&self) -> Result<Result<BlockHash, RpcError>, HTTPError> {
+    fn get_best_block_hash(&self) -> Result<Result<BlockHash, RpcError>, ClientError> {
         unimplemented!()
     }
 
     fn get_block(
         &self,
         header_hash: &BlockHash,
-    ) -> Result<Result<Block<TransactionId>, RpcError>, HTTPError> {
+    ) -> Result<Result<Block<TransactionId>, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -98,19 +98,19 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn get_block_verbose(
         &self,
         header_hash: &BlockHash,
-    ) -> Result<Result<Block<DecodedRawTransaction>, RpcError>, HTTPError> {
+    ) -> Result<Result<Block<DecodedRawTransaction>, RpcError>, ClientError> {
         unimplemented!()
     }
 
-    fn get_blockchain_info(&self) -> Result<Result<BlockchainInfo, RpcError>, HTTPError> {
+    fn get_blockchain_info(&self) -> Result<Result<BlockchainInfo, RpcError>, ClientError> {
         unimplemented!()
     }
 
-    fn get_block_count(&self) -> Result<Result<BlockHeight, RpcError>, HTTPError> {
+    fn get_block_count(&self) -> Result<Result<BlockHeight, RpcError>, ClientError> {
         unimplemented!()
     }
 
-    fn get_block_hash(&self, height: u32) -> Result<Result<BlockHash, RpcError>, HTTPError> {
+    fn get_block_hash(&self, height: u32) -> Result<Result<BlockHash, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -132,7 +132,7 @@ pub trait BitcoinRpcApi: Send + Sync {
     // TODO: getnetworkhashesps
     // TODO: getnetworkinfo
 
-    fn get_new_address(&self) -> Result<Result<Address, RpcError>, HTTPError> {
+    fn get_new_address(&self) -> Result<Result<Address, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -143,14 +143,14 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn get_raw_transaction_serialized(
         &self,
         tx: &TransactionId,
-    ) -> Result<Result<SerializedRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<SerializedRawTransaction, RpcError>, ClientError> {
         unimplemented!()
     }
 
     fn get_raw_transaction_verbose(
         &self,
         tx: &TransactionId,
-    ) -> Result<Result<VerboseRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<VerboseRawTransaction, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -160,7 +160,7 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn get_transaction(
         &self,
         tx: &TransactionId,
-    ) -> Result<Result<Transaction, RpcError>, HTTPError> {
+    ) -> Result<Result<Transaction, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -191,7 +191,7 @@ pub trait BitcoinRpcApi: Send + Sync {
         min_confirmations: TxOutConfirmations,
         max_confirmations: Option<u32>,
         recipients: Option<Vec<Address>>,
-    ) -> Result<Result<Vec<UnspentTransactionOutput>, RpcError>, HTTPError> {
+    ) -> Result<Result<Vec<UnspentTransactionOutput>, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -208,7 +208,7 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn send_raw_transaction(
         &self,
         tx_data: SerializedRawTransaction,
-    ) -> Result<Result<TransactionId, RpcError>, HTTPError> {
+    ) -> Result<Result<TransactionId, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -216,7 +216,7 @@ pub trait BitcoinRpcApi: Send + Sync {
         &self,
         address: &Address,
         amount: f64,
-    ) -> Result<Result<TransactionId, RpcError>, HTTPError> {
+    ) -> Result<Result<TransactionId, RpcError>, ClientError> {
         unimplemented!()
     }
     // TODO: setaccount
@@ -233,7 +233,7 @@ pub trait BitcoinRpcApi: Send + Sync {
         dependencies: Option<Vec<&TransactionOutputDetail>>,
         private_keys: Option<Vec<&PrivateKey>>,
         signature_hash_type: Option<SigHashType>,
-    ) -> Result<Result<SigningResult, RpcError>, HTTPError> {
+    ) -> Result<Result<SigningResult, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -243,7 +243,7 @@ pub trait BitcoinRpcApi: Send + Sync {
     fn validate_address(
         &self,
         address: &Address,
-    ) -> Result<Result<AddressValidationResult, RpcError>, HTTPError> {
+    ) -> Result<Result<AddressValidationResult, RpcError>, ClientError> {
         unimplemented!()
     }
 

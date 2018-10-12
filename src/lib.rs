@@ -1,5 +1,6 @@
 #![cfg_attr(test, deny(warnings))]
 
+extern crate base64;
 extern crate bitcoin;
 extern crate hex as std_hex;
 extern crate jsonrpc_client;
@@ -10,13 +11,13 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 
+pub use bitcoin_rpc_api::*;
+pub use bitcoincore::*;
+pub use jsonrpc_client::{ClientError, RpcError};
+pub use stub_rpc_client::*;
+pub use types::*;
+
 mod bitcoin_rpc_api;
 mod bitcoincore;
 mod stub_rpc_client;
 mod types;
-
-pub use bitcoin_rpc_api::*;
-pub use bitcoincore::*;
-pub use jsonrpc_client::RpcError;
-pub use stub_rpc_client::*;
-pub use types::*;

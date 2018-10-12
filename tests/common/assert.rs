@@ -1,5 +1,5 @@
 use bitcoin_rpc_client::BitcoinCoreClient;
-use jsonrpc_client::HTTPError;
+use jsonrpc_client::ClientError;
 use jsonrpc_client::RpcError;
 use std::fmt::Debug;
 use testcontainers::{clients::Cli, images::coblox_bitcoincore::BitcoinCore, Docker};
@@ -7,7 +7,7 @@ use testcontainers::{clients::Cli, images::coblox_bitcoincore::BitcoinCore, Dock
 pub fn assert_successful_result<R, I>(invocation: I)
 where
     R: Debug,
-    I: Fn(&BitcoinCoreClient) -> Result<Result<R, RpcError>, HTTPError>,
+    I: Fn(&BitcoinCoreClient) -> Result<Result<R, RpcError>, ClientError>,
 {
     let docker = Cli::default();
     let container = docker.run(BitcoinCore::default());
