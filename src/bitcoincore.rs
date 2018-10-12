@@ -1,6 +1,7 @@
+use base64;
 use jsonrpc_client::{
-    header::{Authorization, Basic, Headers},
-    HTTPClient, HTTPError, JsonRpcVersion, RpcClient, RpcError, RpcRequest,
+    header::{HeaderMap, HeaderValue, AUTHORIZATION},
+    ClientError, HTTPClient, JsonRpcVersion, RpcClient, RpcError, RpcRequest,
 };
 use serde::{de::DeserializeOwned, ser::Serialize};
 use std::fmt::Debug;
@@ -25,16 +26,19 @@ pub enum TxOutConfirmations {
 #[allow(dead_code)]
 impl BitcoinCoreClient {
     pub fn new(url: &str, username: &str, password: &str) -> Self {
-        let mut headers = Headers::new();
-        headers.set(Authorization(Basic {
-            username: username.to_string(),
-            password: Some(password.to_string()),
-        }));
+        let mut headers = HeaderMap::new();
+        headers.insert(
+            AUTHORIZATION,
+            HeaderValue::from_str(&format!(
+                "Basic {}",
+                base64::encode(&format!("{}:{}", username, password))
+            )).unwrap(),
+        );
 
         let client = HTTPClient::builder()
             .default_headers(headers)
             .build()
-            .unwrap();
+            .expect("unable to create HTTP client");
 
         let rpc_client = RpcClient::new(client, url);
 
@@ -51,7 +55,7 @@ impl BitcoinCoreClient {
         &self,
         tx: &TransactionId,
         verbose: bool,
-    ) -> Result<Result<R, RpcError>, HTTPError>
+    ) -> Result<Result<R, RpcError>, ClientError>
     where
         R: DeserializeOwned,
     {
@@ -72,7 +76,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         &self,
         number_of_required_signatures: u32,
         participants: Vec<&Address>,
-    ) -> Result<Result<MultiSigAddress, RpcError>, HTTPError> {
+    ) -> Result<Result<MultiSigAddress, RpcError>, ClientError> {
         self.send(&RpcRequest::new2(
             JsonRpcVersion::V1,
             "42",
@@ -86,7 +90,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         &self,
         inputs: Vec<&NewTransactionInput>,
         output: &NewTransactionOutput,
-    ) -> Result<Result<SerializedRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<SerializedRawTransaction, RpcError>, ClientError> {
         self.send(&RpcRequest::new2(
             JsonRpcVersion::V1,
             "42",
@@ -99,7 +103,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn decode_rawtransaction(
         &self,
         tx: SerializedRawTransaction,
-    ) -> Result<Result<DecodedRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<DecodedRawTransaction, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -111,7 +115,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn decode_script(
         &self,
         script: RedeemScript,
-    ) -> Result<Result<DecodedScript, RpcError>, HTTPError> {
+    ) -> Result<Result<DecodedScript, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -120,7 +124,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn dump_privkey(&self, address: &Address) -> Result<Result<PrivateKey, RpcError>, HTTPError> {
+    fn dump_privkey(&self, address: &Address) -> Result<Result<PrivateKey, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -133,7 +137,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         &self,
         tx: &SerializedRawTransaction,
         options: &FundingOptions,
-    ) -> Result<Result<FundingResult, RpcError>, HTTPError> {
+    ) -> Result<Result<FundingResult, RpcError>, ClientError> {
         self.send(&RpcRequest::new2(
             JsonRpcVersion::V1,
             "42",
@@ -146,7 +150,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn generate(
         &self,
         number_of_blocks: u32,
-    ) -> Result<Result<Vec<BlockHash>, RpcError>, HTTPError> {
+    ) -> Result<Result<Vec<BlockHash>, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -155,7 +159,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn get_account(&self, address: &Address) -> Result<Result<Account, RpcError>, HTTPError> {
+    fn get_account(&self, address: &Address) -> Result<Result<Account, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -164,7 +168,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn get_best_block_hash(&self) -> Result<Result<BlockHash, RpcError>, HTTPError> {
+    fn get_best_block_hash(&self) -> Result<Result<BlockHash, RpcError>, ClientError> {
         self.send(&RpcRequest::new0(
             JsonRpcVersion::V1,
             "42",
@@ -175,7 +179,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn get_block(
         &self,
         header_hash: &BlockHash,
-    ) -> Result<Result<Block<TransactionId>, RpcError>, HTTPError> {
+    ) -> Result<Result<Block<TransactionId>, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -187,7 +191,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn get_block_verbose(
         &self,
         header_hash: &BlockHash,
-    ) -> Result<Result<Block<DecodedRawTransaction>, RpcError>, HTTPError> {
+    ) -> Result<Result<Block<DecodedRawTransaction>, RpcError>, ClientError> {
         self.send(&RpcRequest::new2(
             JsonRpcVersion::V1,
             "42",
@@ -197,7 +201,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn get_blockchain_info(&self) -> Result<Result<BlockchainInfo, RpcError>, HTTPError> {
+    fn get_blockchain_info(&self) -> Result<Result<BlockchainInfo, RpcError>, ClientError> {
         self.send(&RpcRequest::new0(
             JsonRpcVersion::V1,
             "42",
@@ -205,11 +209,11 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn get_block_count(&self) -> Result<Result<BlockHeight, RpcError>, HTTPError> {
+    fn get_block_count(&self) -> Result<Result<BlockHeight, RpcError>, ClientError> {
         self.send(&RpcRequest::new0(JsonRpcVersion::V1, "42", "getblockcount"))
     }
 
-    fn get_block_hash(&self, height: u32) -> Result<Result<BlockHash, RpcError>, HTTPError> {
+    fn get_block_hash(&self, height: u32) -> Result<Result<BlockHash, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -218,7 +222,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn get_new_address(&self) -> Result<Result<Address, RpcError>, HTTPError> {
+    fn get_new_address(&self) -> Result<Result<Address, RpcError>, ClientError> {
         self.send(&RpcRequest::new2(
             JsonRpcVersion::V1,
             "42",
@@ -231,21 +235,21 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn get_raw_transaction_serialized(
         &self,
         tx: &TransactionId,
-    ) -> Result<Result<SerializedRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<SerializedRawTransaction, RpcError>, ClientError> {
         self.get_raw_transaction(tx, false)
     }
 
     fn get_raw_transaction_verbose(
         &self,
         tx: &TransactionId,
-    ) -> Result<Result<VerboseRawTransaction, RpcError>, HTTPError> {
+    ) -> Result<Result<VerboseRawTransaction, RpcError>, ClientError> {
         self.get_raw_transaction(tx, true)
     }
 
     fn get_transaction(
         &self,
         tx: &TransactionId,
-    ) -> Result<Result<Transaction, RpcError>, HTTPError> {
+    ) -> Result<Result<Transaction, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -259,7 +263,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         min_confirmations: TxOutConfirmations,
         max_confirmations: Option<u32>,
         recipients: Option<Vec<Address>>,
-    ) -> Result<Result<Vec<UnspentTransactionOutput>, RpcError>, HTTPError> {
+    ) -> Result<Result<Vec<UnspentTransactionOutput>, RpcError>, ClientError> {
         let min_confirmations = match min_confirmations {
             TxOutConfirmations::Unconfirmed => 0,
             TxOutConfirmations::AtLeast(number) => number,
@@ -278,7 +282,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn send_raw_transaction(
         &self,
         tx_data: SerializedRawTransaction,
-    ) -> Result<Result<TransactionId, RpcError>, HTTPError> {
+    ) -> Result<Result<TransactionId, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -291,7 +295,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         &self,
         address: &Address,
         amount: f64,
-    ) -> Result<Result<TransactionId, RpcError>, HTTPError> {
+    ) -> Result<Result<TransactionId, RpcError>, ClientError> {
         self.send(&RpcRequest::new2(
             JsonRpcVersion::V1,
             "42",
@@ -307,7 +311,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         dependencies: Option<Vec<&TransactionOutputDetail>>,
         private_keys: Option<Vec<&PrivateKey>>,
         signature_hash_type: Option<SigHashType>,
-    ) -> Result<Result<SigningResult, RpcError>, HTTPError> {
+    ) -> Result<Result<SigningResult, RpcError>, ClientError> {
         self.send(&RpcRequest::new4(
             JsonRpcVersion::V1,
             "42",
@@ -322,7 +326,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
     fn validate_address(
         &self,
         address: &Address,
-    ) -> Result<Result<AddressValidationResult, RpcError>, HTTPError> {
+    ) -> Result<Result<AddressValidationResult, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
@@ -336,7 +340,7 @@ impl BitcoinCoreClient {
     fn send<R: DeserializeOwned + Debug, P: Serialize + Debug>(
         &self,
         request: &RpcRequest<P>,
-    ) -> Result<Result<R, RpcError>, HTTPError> {
+    ) -> Result<Result<R, RpcError>, ClientError> {
         if let Some(ref config) = self.retry_config {
             for i in 0..config.max_retries {
                 let result = self.client.send::<R, P>(request);
