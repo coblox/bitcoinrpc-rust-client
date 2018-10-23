@@ -138,6 +138,26 @@ fn validate_address() {
 }
 
 #[test]
+fn validate_multisig_address() {
+    setup();
+
+    assert_successful_result(|client| {
+        let test_client = BitcoinCoreTestClient::new(client);
+
+        let alice = test_client.an_address();
+        let bob = test_client.an_address();
+
+        let multi_sig = client
+            .add_multisig_address(1, vec![&alice, &bob])
+            .unwrap()
+            .unwrap()
+            .address;
+
+        client.validate_address(&multi_sig)
+    })
+}
+
+#[test]
 fn get_raw_transaction_serialized() {
     setup();
 
