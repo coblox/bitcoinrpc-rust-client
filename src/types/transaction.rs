@@ -234,9 +234,9 @@ pub struct UnspentTransactionOutput {
     pub vout: u32,
     pub address: Option<Address>,
     pub account: Option<String>,
-    #[serde(rename = "scriptPubKey", with = "self::serde::script")]
+    #[serde(rename = "scriptPubKey")]
     pub script_pub_key: Script,
-    pub redeem_script: Option<String>,
+    pub redeem_script: Option<Script>,
     pub amount: f64,
     pub confirmations: i32,
     pub spendable: bool,
@@ -267,10 +267,10 @@ pub type NewTransactionOutput = HashMap<Address, f64>;
 pub struct TransactionOutputDetail {
     pub txid: TransactionId,
     pub vout: u32,
-    #[serde(rename = "scriptPubKey", with = "self::serde::script")]
+    #[serde(rename = "scriptPubKey")]
     pub script_pub_key: Script,
     #[serde(rename = "redeemScript")]
-    pub redeem_script: Option<RedeemScript>,
+    pub redeem_script: Option<Script>,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]

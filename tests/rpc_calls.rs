@@ -3,6 +3,7 @@ extern crate jsonrpc_client;
 #[macro_use]
 extern crate log;
 extern crate bitcoin;
+extern crate hex;
 extern crate testcontainers;
 
 use bitcoin_rpc_client::*;
@@ -152,7 +153,7 @@ fn decode_script() {
     setup();
 
     assert_successful_result(|client| {
-        client.decode_script(RedeemScript::from("522103ede722780d27b05f0b1169efc90fa15a601a32fc6c3295114500c586831b6aaf2102ecd2d250a76d204011de6bc365a56033b9b3a149f679bc17205555d3c2b2854f21022d609d2f0d359e5bc0e5d0ea20ff9f5d3396cb5b1906aa9c56a0e7b5edc0c5d553ae"))
+        client.decode_script(Script::from(hex::decode("522103ede722780d27b05f0b1169efc90fa15a601a32fc6c3295114500c586831b6aaf2102ecd2d250a76d204011de6bc365a56033b9b3a149f679bc17205555d3c2b2854f21022d609d2f0d359e5bc0e5d0ea20ff9f5d3396cb5b1906aa9c56a0e7b5edc0c5d553ae").unwrap()))
     })
 }
 
