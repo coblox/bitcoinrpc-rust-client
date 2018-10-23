@@ -2,6 +2,7 @@ extern crate bitcoin_rpc_client;
 extern crate jsonrpc_client;
 #[macro_use]
 extern crate log;
+extern crate bitcoin;
 extern crate testcontainers;
 
 use bitcoin_rpc_client::*;

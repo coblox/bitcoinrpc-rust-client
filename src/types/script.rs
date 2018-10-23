@@ -1,4 +1,5 @@
-use bitcoin::blockdata::script::Script;
+use bitcoin::Address;
+use bitcoin::Script;
 use types::*;
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]

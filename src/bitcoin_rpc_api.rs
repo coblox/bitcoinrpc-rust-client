@@ -1,3 +1,4 @@
+use bitcoin::Address;
 use bitcoincore::TxOutConfirmations;
 use jsonrpc_client::ClientError;
 use jsonrpc_client::RpcError;

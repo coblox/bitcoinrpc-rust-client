@@ -1,11 +1,12 @@
 use base64;
+use bitcoin::Address;
 use jsonrpc_client::{
     header::{HeaderMap, HeaderValue, AUTHORIZATION},
     ClientError, HTTPClient, JsonRpcVersion, RpcClient, RpcError, RpcRequest,
 };
 use serde::{de::DeserializeOwned, ser::Serialize};
 use std::fmt::Debug;
-use types::{Address, *};
+use types::*;
 use BitcoinRpcApi;
 
 struct RetryConfig {

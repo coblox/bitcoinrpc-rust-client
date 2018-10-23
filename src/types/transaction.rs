@@ -3,6 +3,7 @@ use bitcoin::{
     blockdata::{script::Script, transaction::Transaction as BitcoinTransaction},
     network::serialize as bitcoin_serialize,
     util::hash::Sha256dHash,
+    Address,
 };
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::{collections::HashMap, fmt, str::FromStr};
@@ -362,8 +363,13 @@ pub struct FundingResult {
 mod tests {
     use super::*;
     use bitcoin::blockdata::script::Script;
+    use bitcoin::Address;
     use serde_json;
+    use std::collections::HashMap;
     use std_hex;
+    use types::script::ScriptPubKey;
+    use types::script::ScriptType;
+    use types::BlockHash;
 
     #[test]
     fn should_deserialize_transaction() {
@@ -459,7 +465,7 @@ mod tests {
         assert_eq!(tx, SerializedRawTransaction::from(
             "0200000000010144af9381cd3cb3d14d549b27c8d8a4c87d1d58e501df656342363886277f62e10000000000feffffff02aba9ac0300000000160014908abcc05defb6ba5630268b395b1fab19ad50d760566c0000000000220020c39353c0df01296ab055e83b701715b765636cf91c795deb7573e4b055ada53302473044022010d3b0f0e48977b5c7af7f6a0839a8ed24cd760c4e95668ed7b3275fca727360022007a27825d82a1e69bff2e8cbf195aa4280c214f1cf7650afb6fa2eb49a9765040121036bc4598b0de6ac9c560f1322ce86a0bf27e934837ac86196337db06002c3a352f83a1400"));
         let bitcoin_tx: BitcoinTransaction = tx.into();
-        let expected_txid = Sha256dHash::from_hex(
+        let expected_txid = TransactionId::from_hex(
             "85a42342de714d4fa39af1fa503b9363df8a31450ff22869b300f686737370e4",
         ).unwrap();
         assert_eq!(bitcoin_tx.txid(), expected_txid);
