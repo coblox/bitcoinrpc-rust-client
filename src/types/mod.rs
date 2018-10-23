@@ -8,11 +8,6 @@ mod script;
 mod serde;
 mod transaction;
 
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
-pub struct BlockHash(String);
-
-from_str!(BlockHash);
-
 #[derive(Deserialize, Serialize, Debug)]
 pub struct Account(String);
 
