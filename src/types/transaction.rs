@@ -6,7 +6,9 @@ use bitcoin::{
 };
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::{collections::HashMap, fmt, str::FromStr};
-use types::*;
+use types::script::ScriptPubKey;
+use types::BlockHash;
+use types::TransactionId;
 
 #[derive(Debug, PartialEq, Clone)]
 //TODO: can be used once https://github.com/rust-bitcoin/rust-bitcoin/issues/104 is fixed
