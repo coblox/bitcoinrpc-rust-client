@@ -15,7 +15,7 @@ keywords = ["bitcoin", "rpc", "client"]
 
 [dependencies]
 base64 = "0.9"
-bitcoin = "0.14"
+bitcoin = { version = "0.14", features = ["serde"] }
 hex = "0.3"
 jsonrpc_client = "0.2"
 log = "0.4"
