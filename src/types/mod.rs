@@ -20,7 +20,6 @@ pub use bitcoin::network::constants::Network;
 pub use bitcoin::util::privkey::Privkey;
 pub use bitcoin::Address;
 pub use bitcoin::Script;
-pub use bitcoin::Transaction;
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct Account(pub String);
