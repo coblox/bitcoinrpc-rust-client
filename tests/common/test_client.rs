@@ -1,3 +1,4 @@
+use bitcoin::Address;
 use bitcoin_rpc_client::*;
 
 pub struct BitcoinCoreTestClient<'a> {
