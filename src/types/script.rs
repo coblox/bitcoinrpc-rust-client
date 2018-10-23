@@ -1,10 +1,5 @@
 use bitcoin::{Address, Script};
 
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
-pub struct RedeemScript(String);
-
-from_str!(RedeemScript);
-
 #[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
 pub struct ScriptPubKey {
     pub asm: String,
