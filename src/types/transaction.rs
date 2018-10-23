@@ -2,14 +2,11 @@ use bitcoin::{
     self,
     blockdata::{script::Script, transaction::Transaction as BitcoinTransaction},
     network::serialize as bitcoin_serialize,
-    util::hash::Sha256dHash,
     Address,
 };
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::{collections::HashMap, fmt, str::FromStr};
 use types::*;
-
-pub type TransactionId = Sha256dHash;
 
 #[derive(Debug, PartialEq, Clone)]
 //TODO: can be used once https://github.com/rust-bitcoin/rust-bitcoin/issues/104 is fixed

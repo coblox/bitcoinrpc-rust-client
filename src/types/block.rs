@@ -48,7 +48,7 @@ pub struct Block<T> {
 mod tests {
     use super::*;
     use serde_json;
-    use types::transaction::TransactionId;
+    use types::TransactionId;
 
     #[test]
     fn can_deserialize_block_struct() {
