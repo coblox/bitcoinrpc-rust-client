@@ -40,13 +40,13 @@ pub enum ScriptType {
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct DecodedScript {
-    asm: String,
+    pub asm: String,
     #[serde(rename = "type")]
-    script_type: Option<ScriptType>,
+    pub script_type: Option<ScriptType>,
     #[serde(rename = "reqSigs")]
-    req_sigs: Option<u32>,
-    addresses: Option<Vec<Address>>,
-    p2sh: Address,
+    pub req_sigs: Option<u32>,
+    pub addresses: Option<Vec<Address>>,
+    pub p2sh: Address,
 }
 
 #[cfg(test)]

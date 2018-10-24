@@ -9,9 +9,7 @@ mod serde;
 mod transaction;
 
 #[derive(Deserialize, Serialize, Debug)]
-pub struct Account(String);
-
-from_str!(Account);
+pub struct Account(pub String);
 
 #[allow(non_camel_case_types)]
 // TODO: This enum is a bit weird. Clear it up once we have a better understanding of it

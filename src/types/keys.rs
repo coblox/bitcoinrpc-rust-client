@@ -5,9 +5,15 @@ use std::{fmt as std_fmt, str::FromStr};
 #[derive(PartialEq)]
 pub struct PrivateKey(Privkey);
 
-impl Into<Privkey> for PrivateKey {
-    fn into(self) -> Privkey {
-        self.0
+impl From<Privkey> for PrivateKey {
+    fn from(p: Privkey) -> Self {
+        PrivateKey(p)
+    }
+}
+
+impl From<PrivateKey> for Privkey {
+    fn from(p: PrivateKey) -> Self {
+        p.0
     }
 }
 

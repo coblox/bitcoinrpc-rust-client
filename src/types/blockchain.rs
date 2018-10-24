@@ -3,31 +3,31 @@ use types::*;
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct SoftFork {
-    id: String,
-    version: u32,
-    reject: Reject,
+    pub id: String,
+    pub version: u32,
+    pub reject: Reject,
 }
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct Reject {
-    status: bool,
+    pub status: bool,
 }
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct Bip9SoftFork {
-    csv: Bip9SoftForkDetails,
-    segwit: Bip9SoftForkDetails,
+    pub csv: Bip9SoftForkDetails,
+    pub segwit: Bip9SoftForkDetails,
 }
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct Bip9SoftForkDetails {
-    status: String,
-    bit: Option<u32>,
+    pub status: String,
+    pub bit: Option<u32>,
     #[serde(rename = "startTime")]
     // In regtest, startTime is -1
-    start_time: i64,
-    timeout: u64,
-    since: u64,
+    pub start_time: i64,
+    pub timeout: u64,
+    pub since: u64,
     // TODO: implement before new BIP9
     /*
     "statistics": {         (object) numeric statistics about BIP9 signalling for a softfork (only for "started" status)
@@ -42,24 +42,24 @@ pub struct Bip9SoftForkDetails {
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct BlockchainInfo {
     #[serde(with = "self::serde::network")]
-    chain: Network,
-    blocks: u64,
-    headers: u64,
-    bestblockhash: String,
+    pub chain: Network,
+    pub blocks: u64,
+    pub headers: u64,
+    pub bestblockhash: String,
     //TODO: Cannot trust serde - it is not able to deserialise “4.656542373906925e-10"
-    difficulty: f64,
-    mediantime: u64,
-    verificationprogress: f64,
-    initialblockdownload: bool,
-    chainwork: String,
-    size_on_disk: u64,
-    pruned: bool,
-    pruneheight: Option<u64>,
-    automatic_pruning: Option<bool>,
-    prune_target_size: Option<u64>,
-    softforks: Vec<SoftFork>,
-    bip9_softforks: Bip9SoftFork,
-    warnings: String,
+    pub difficulty: f64,
+    pub mediantime: u64,
+    pub verificationprogress: f64,
+    pub initialblockdownload: bool,
+    pub chainwork: String,
+    pub size_on_disk: u64,
+    pub pruned: bool,
+    pub pruneheight: Option<u64>,
+    pub automatic_pruning: Option<bool>,
+    pub prune_target_size: Option<u64>,
+    pub softforks: Vec<SoftFork>,
+    pub bip9_softforks: Bip9SoftFork,
+    pub warnings: String,
 }
 #[cfg(test)]
 mod tests {

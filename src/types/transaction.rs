@@ -131,16 +131,16 @@ pub struct Transaction {
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct Detail {
-    account: String,
-    address: Option<Address>,
+    pub account: String,
+    pub address: Option<Address>,
     /// send|receive|immature|generate|orphan TODO: Create enum if needed
-    category: String,
-    amount: f64,
-    fee: Option<f64>,
-    vout: u32,
+    pub category: String,
+    pub amount: f64,
+    pub fee: Option<f64>,
+    pub vout: u32,
     #[serde(rename = "involvesWatchonly")]
-    involves_watchonly: Option<bool>,
-    abandoned: Option<bool>,
+    pub involves_watchonly: Option<bool>,
+    pub abandoned: Option<bool>,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
@@ -157,26 +157,26 @@ pub struct DecodedRawTransaction {
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct VerboseRawTransaction {
-    txid: TransactionId,
-    hash: String,
-    size: u32,
-    vsize: u32,
-    version: u32,
-    locktime: u32,
-    vin: Vec<TransactionInput>,
-    vout: Vec<TransactionOutput>,
-    hex: SerializedRawTransaction,
-    blockhash: BlockHash,
-    confirmations: i32,
-    time: u64,
-    blocktime: u64,
+    pub txid: TransactionId,
+    pub hash: String,
+    pub size: u32,
+    pub vsize: u32,
+    pub version: u32,
+    pub locktime: u32,
+    pub vin: Vec<TransactionInput>,
+    pub vout: Vec<TransactionOutput>,
+    pub hex: SerializedRawTransaction,
+    pub blockhash: BlockHash,
+    pub confirmations: i32,
+    pub time: u64,
+    pub blocktime: u64,
 }
 
 // TODO: Create serializer and deserializer that can create this struct from the only the hex string
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct ScriptSig {
-    asm: String,
-    hex: String,
+    pub asm: String,
+    pub hex: String,
 }
 
 /// Transaction input can either be a regular transaction or a coinbase transaction.
@@ -184,14 +184,14 @@ pub struct ScriptSig {
 /// For deserialization compatibility, we define all the fields as Option<T> and provide accessors.
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct TransactionInput {
-    txid: Option<TransactionId>,
-    vout: Option<u32>,
+    pub txid: Option<TransactionId>,
+    pub vout: Option<u32>,
     #[serde(rename = "scriptSig")]
-    script_sig: Option<ScriptSig>,
+    pub script_sig: Option<ScriptSig>,
 
-    coinbase: Option<String>,
+    pub coinbase: Option<String>,
 
-    sequence: u64,
+    pub sequence: u64,
 }
 
 impl TransactionInput {
@@ -228,7 +228,7 @@ pub struct TransactionOutput {
     pub script_pub_key: ScriptPubKey,
 }
 
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
 pub struct UnspentTransactionOutput {
     pub txid: TransactionId,
     pub vout: u32,
@@ -246,9 +246,9 @@ pub struct UnspentTransactionOutput {
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct NewTransactionInput {
-    txid: TransactionId,
-    vout: u32,
-    sequence: Option<u32>,
+    pub txid: TransactionId,
+    pub vout: u32,
+    pub sequence: Option<u32>,
 }
 
 impl NewTransactionInput {
@@ -265,30 +265,30 @@ pub type NewTransactionOutput = HashMap<Address, f64>;
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct TransactionOutputDetail {
-    txid: TransactionId,
-    vout: u32,
+    pub txid: TransactionId,
+    pub vout: u32,
     #[serde(rename = "scriptPubKey", with = "self::serde::script")]
-    script_pub_key: Script,
+    pub script_pub_key: Script,
     #[serde(rename = "redeemScript")]
-    redeem_script: Option<RedeemScript>,
+    pub redeem_script: Option<RedeemScript>,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct SigningError {
-    txid: TransactionId,
-    vout: u32,
+    pub txid: TransactionId,
+    pub vout: u32,
     // TODO: Use ScriptSig type here once we have the (de)serializer
     #[serde(rename = "scriptSig")]
-    script_sig: String,
-    sequence: u32,
-    error: String,
+    pub script_sig: String,
+    pub sequence: u32,
+    pub error: String,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct SigningResult {
-    hex: String,
-    complete: bool,
-    errors: Option<Vec<SigningError>>,
+    pub hex: String,
+    pub complete: bool,
+    pub errors: Option<Vec<SigningError>>,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
@@ -346,17 +346,51 @@ impl FundingOptions {
             ..self
         }
     }
-
-    // TODO: Implement other builder methods
+    pub fn with_change_position(self, change_position: u32) -> Self {
+        FundingOptions {
+            change_position: Some(change_position),
+            ..self
+        }
+    }
+    pub fn with_include_watching(self, include_watching: bool) -> Self {
+        FundingOptions {
+            include_watching: Some(include_watching),
+            ..self
+        }
+    }
+    pub fn with_lock_unspents(self, lock_unspents: bool) -> Self {
+        FundingOptions {
+            lock_unspents: Some(lock_unspents),
+            ..self
+        }
+    }
+    pub fn with_reserve_change_key(self, reserve_change_key: bool) -> Self {
+        FundingOptions {
+            reserve_change_key: Some(reserve_change_key),
+            ..self
+        }
+    }
+    pub fn with_fee_rate(self, fee_rate: u32) -> Self {
+        FundingOptions {
+            fee_rate: Some(fee_rate),
+            ..self
+        }
+    }
+    pub fn with_subtract_fee_from_outputs(self, subtract_fee_from_outputs: Vec<u32>) -> Self {
+        FundingOptions {
+            subtract_fee_from_outputs: Some(subtract_fee_from_outputs),
+            ..self
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct FundingResult {
-    hex: SerializedRawTransaction,
-    fee: f64,
+    pub hex: SerializedRawTransaction,
+    pub fee: f64,
     // TODO: This is -1 if no change output was added. Add custom deserializer that converts to Option<u32>
     #[serde(rename = "changepos")]
-    change_pos: i32,
+    pub change_pos: i32,
 }
 
 #[cfg(test)]
