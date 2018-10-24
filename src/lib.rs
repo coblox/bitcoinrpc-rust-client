@@ -11,13 +11,32 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 
-pub use bitcoin_rpc_api::*;
-pub use bitcoincore::*;
-pub use jsonrpc_client::{ClientError, RpcError};
-pub use stub_rpc_client::*;
-pub use types::*;
-
 mod bitcoin_rpc_api;
 mod bitcoincore;
 mod stub_rpc_client;
 mod types;
+
+// Re-export types from rust-bitcoin so explicit dependency is not necessarily needed
+pub type TransactionId = bitcoin::util::hash::Sha256dHash;
+pub type BlockHash = bitcoin::util::hash::Sha256dHash;
+
+pub use bitcoin::network::constants::Network;
+pub use bitcoin::util::privkey::Privkey;
+pub use bitcoin::Address;
+pub use bitcoin::Script;
+
+pub use bitcoin_rpc_api::BitcoinRpcApi;
+pub use bitcoincore::BitcoinCoreClient;
+pub use stub_rpc_client::BitcoinStubClient;
+
+pub use jsonrpc_client::{ClientError, RpcError};
+
+pub mod rpc {
+    pub use types::address::*;
+    pub use types::block::*;
+    pub use types::blockchain::*;
+    pub use types::keys::*;
+    pub use types::script::*;
+    pub use types::transaction::*;
+    pub use types::{Account, SigHashType, TxOutConfirmations};
+}

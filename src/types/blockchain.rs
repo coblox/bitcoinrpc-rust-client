@@ -1,5 +1,4 @@
 use bitcoin::network::constants::Network;
-use types::*;
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct SoftFork {
@@ -41,7 +40,7 @@ pub struct Bip9SoftForkDetails {
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct BlockchainInfo {
-    #[serde(with = "self::serde::network")]
+    #[serde(with = "super::serde::network")]
     pub chain: Network,
     pub blocks: u64,
     pub headers: u64,

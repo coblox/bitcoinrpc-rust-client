@@ -10,12 +10,12 @@ impl<'a> BitcoinCoreTestClient<'a> {
         BitcoinCoreTestClient { client }
     }
 
-    pub fn a_utxo(&self) -> UnspentTransactionOutput {
+    pub fn a_utxo(&self) -> rpc::UnspentTransactionOutput {
         let _ = self.a_block(); // Need to generate a block first
 
         let mut utxos = self
             .client
-            .list_unspent(TxOutConfirmations::AtLeast(6), None, None)
+            .list_unspent(rpc::TxOutConfirmations::AtLeast(6), None, None)
             .unwrap()
             .unwrap();
 
@@ -36,7 +36,7 @@ impl<'a> BitcoinCoreTestClient<'a> {
         self.client.get_new_address().unwrap().unwrap()
     }
 
-    pub fn a_block(&self) -> Block<TransactionId> {
+    pub fn a_block(&self) -> rpc::Block<TransactionId> {
         self.client
             .generate(101)
             .and_then(|response| {

@@ -7,8 +7,8 @@ use bitcoin::{
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::{collections::HashMap, fmt, str::FromStr};
 use types::script::ScriptPubKey;
-use types::BlockHash;
-use types::TransactionId;
+use BlockHash;
+use TransactionId;
 
 #[derive(Debug, PartialEq, Clone)]
 //TODO: can be used once https://github.com/rust-bitcoin/rust-bitcoin/issues/104 is fixed
@@ -77,9 +77,7 @@ impl FromStr for TransactionWrapper {
 }
 
 #[derive(Debug, Deserialize, Serialize, PartialEq, Clone)]
-pub struct SerializedRawTransaction(String);
-
-from_str!(SerializedRawTransaction);
+pub struct SerializedRawTransaction(pub String);
 
 impl From<SerializedRawTransaction> for BitcoinTransaction {
     fn from(serialized_tx: SerializedRawTransaction) -> Self {
@@ -400,9 +398,7 @@ mod tests {
     use serde_json;
     use std::collections::HashMap;
     use std_hex;
-    use types::script::ScriptPubKey;
     use types::script::ScriptType;
-    use types::BlockHash;
 
     #[test]
     fn should_deserialize_transaction() {
@@ -495,8 +491,8 @@ mod tests {
 
         let tx: SerializedRawTransaction = serde_json::from_str(json).unwrap();
 
-        assert_eq!(tx, SerializedRawTransaction::from(
-            "0200000000010144af9381cd3cb3d14d549b27c8d8a4c87d1d58e501df656342363886277f62e10000000000feffffff02aba9ac0300000000160014908abcc05defb6ba5630268b395b1fab19ad50d760566c0000000000220020c39353c0df01296ab055e83b701715b765636cf91c795deb7573e4b055ada53302473044022010d3b0f0e48977b5c7af7f6a0839a8ed24cd760c4e95668ed7b3275fca727360022007a27825d82a1e69bff2e8cbf195aa4280c214f1cf7650afb6fa2eb49a9765040121036bc4598b0de6ac9c560f1322ce86a0bf27e934837ac86196337db06002c3a352f83a1400"));
+        assert_eq!(tx, SerializedRawTransaction(String::from("0200000000010144af9381cd3cb3d14d549b27c8d8a4c87d1d58e501df656342363886277f62e10000000000feffffff02aba9ac0300000000160014908abcc05defb6ba5630268b395b1fab19ad50d760566c0000000000220020c39353c0df01296ab055e83b701715b765636cf91c795deb7573e4b055ada53302473044022010d3b0f0e48977b5c7af7f6a0839a8ed24cd760c4e95668ed7b3275fca727360022007a27825d82a1e69bff2e8cbf195aa4280c214f1cf7650afb6fa2eb49a9765040121036bc4598b0de6ac9c560f1322ce86a0bf27e934837ac86196337db06002c3a352f83a1400")
+            ));
         let bitcoin_tx: BitcoinTransaction = tx.into();
         let expected_txid = TransactionId::from_hex(
             "85a42342de714d4fa39af1fa503b9363df8a31450ff22869b300f686737370e4",
@@ -596,7 +592,7 @@ mod tests {
                     },
                 }
             ],
-            hex: SerializedRawTransaction::from("020000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff0603142d010101ffffffff0200000000000000002321039b0e80cdda15ac2164392dfaf4f3eb36dd914dcb1c405eec3dd8c9ebf6c13fc1ac0000000000000000266a24aa21a9ede2f61c3f71d1defd3fa999dfa36953755c690689799962b48bebd836974e8cf90120000000000000000000000000000000000000000000000000000000000000000000000000"),
+            hex: SerializedRawTransaction(String::from("020000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff0603142d010101ffffffff0200000000000000002321039b0e80cdda15ac2164392dfaf4f3eb36dd914dcb1c405eec3dd8c9ebf6c13fc1ac0000000000000000266a24aa21a9ede2f61c3f71d1defd3fa999dfa36953755c690689799962b48bebd836974e8cf90120000000000000000000000000000000000000000000000000000000000000000000000000")),
             blockhash: BlockHash::from_hex("796d7a2dbb1213b65dc2f7170575755efdfae8340b2183e971ed5a89113bbedf").unwrap(),
             confirmations: 9,
             time: 1525393130,
