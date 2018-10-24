@@ -175,7 +175,7 @@ pub struct VerboseRawTransaction {
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct ScriptSig {
     pub asm: String,
-    pub hex: String,
+    pub hex: Script,
 }
 
 /// Transaction input can either be a regular transaction or a coinbase transaction.
@@ -465,7 +465,7 @@ mod tests {
                     vout: Some(0),
                     script_sig: Some(ScriptSig {
                         asm: "3044022013d212c22f0b46bb33106d148493b9a9723adb2c3dd3a3ebe3a9c9e3b95d8cb00220461661710202fbab550f973068af45c294667fc4dc526627a7463eb23ab39e9b[ALL] 0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8".to_string(),
-                        hex: "473044022013d212c22f0b46bb33106d148493b9a9723adb2c3dd3a3ebe3a9c9e3b95d8cb00220461661710202fbab550f973068af45c294667fc4dc526627a7463eb23ab39e9b01410479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8".to_string(),
+                        hex: Script::from(std_hex::decode("473044022013d212c22f0b46bb33106d148493b9a9723adb2c3dd3a3ebe3a9c9e3b95d8cb00220461661710202fbab550f973068af45c294667fc4dc526627a7463eb23ab39e9b01410479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8").unwrap()),
                     }),
                     coinbase: None,
                     sequence: 4294967295,
