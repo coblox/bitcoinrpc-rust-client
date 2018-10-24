@@ -1,4 +1,5 @@
 use bitcoin::Address;
+use bitcoin::Script;
 use bitcoincore::TxOutConfirmations;
 use jsonrpc_client::ClientError;
 use jsonrpc_client::RpcError;
@@ -42,7 +43,7 @@ pub trait BitcoinRpcApi: Send + Sync {
 
     fn decode_script(
         &self,
-        script: RedeemScript,
+        script: Script,
     ) -> Result<Result<DecodedScript, RpcError>, ClientError> {
         unimplemented!()
     }

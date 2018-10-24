@@ -2,14 +2,13 @@ use bitcoin::{
     self,
     blockdata::{script::Script, transaction::Transaction as BitcoinTransaction},
     network::serialize as bitcoin_serialize,
-    util::hash::Sha256dHash,
     Address,
 };
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::{collections::HashMap, fmt, str::FromStr};
-use types::*;
-
-pub type TransactionId = Sha256dHash;
+use types::script::ScriptPubKey;
+use types::BlockHash;
+use types::TransactionId;
 
 #[derive(Debug, PartialEq, Clone)]
 //TODO: can be used once https://github.com/rust-bitcoin/rust-bitcoin/issues/104 is fixed
@@ -176,7 +175,7 @@ pub struct VerboseRawTransaction {
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct ScriptSig {
     pub asm: String,
-    pub hex: String,
+    pub hex: Script,
 }
 
 /// Transaction input can either be a regular transaction or a coinbase transaction.
@@ -234,9 +233,9 @@ pub struct UnspentTransactionOutput {
     pub vout: u32,
     pub address: Option<Address>,
     pub account: Option<String>,
-    #[serde(rename = "scriptPubKey", with = "self::serde::script")]
+    #[serde(rename = "scriptPubKey")]
     pub script_pub_key: Script,
-    pub redeem_script: Option<String>,
+    pub redeem_script: Option<Script>,
     pub amount: f64,
     pub confirmations: i32,
     pub spendable: bool,
@@ -267,10 +266,10 @@ pub type NewTransactionOutput = HashMap<Address, f64>;
 pub struct TransactionOutputDetail {
     pub txid: TransactionId,
     pub vout: u32,
-    #[serde(rename = "scriptPubKey", with = "self::serde::script")]
+    #[serde(rename = "scriptPubKey")]
     pub script_pub_key: Script,
     #[serde(rename = "redeemScript")]
-    pub redeem_script: Option<RedeemScript>,
+    pub redeem_script: Option<Script>,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
@@ -466,7 +465,7 @@ mod tests {
                     vout: Some(0),
                     script_sig: Some(ScriptSig {
                         asm: "3044022013d212c22f0b46bb33106d148493b9a9723adb2c3dd3a3ebe3a9c9e3b95d8cb00220461661710202fbab550f973068af45c294667fc4dc526627a7463eb23ab39e9b[ALL] 0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8".to_string(),
-                        hex: "473044022013d212c22f0b46bb33106d148493b9a9723adb2c3dd3a3ebe3a9c9e3b95d8cb00220461661710202fbab550f973068af45c294667fc4dc526627a7463eb23ab39e9b01410479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8".to_string(),
+                        hex: Script::from(std_hex::decode("473044022013d212c22f0b46bb33106d148493b9a9723adb2c3dd3a3ebe3a9c9e3b95d8cb00220461661710202fbab550f973068af45c294667fc4dc526627a7463eb23ab39e9b01410479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8").unwrap()),
                     }),
                     coinbase: None,
                     sequence: 4294967295,

@@ -1,5 +1,6 @@
 use base64;
 use bitcoin::Address;
+use bitcoin::Script;
 use jsonrpc_client::{
     header::{HeaderMap, HeaderValue, AUTHORIZATION},
     ClientError, HTTPClient, JsonRpcVersion, RpcClient, RpcError, RpcRequest,
@@ -115,7 +116,7 @@ impl BitcoinRpcApi for BitcoinCoreClient {
 
     fn decode_script(
         &self,
-        script: RedeemScript,
+        script: Script,
     ) -> Result<Result<DecodedScript, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,

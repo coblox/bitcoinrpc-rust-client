@@ -8,6 +8,19 @@ mod script;
 mod serde;
 mod transaction;
 
+pub use self::{address::*, block::*, blockchain::*, keys::*, script::*, transaction::*};
+
+use bitcoin::util::hash::Sha256dHash;
+
+// Re-export types from rust-bitcoin so explicit dependency is not necessarily needed
+pub type TransactionId = Sha256dHash;
+pub type BlockHash = Sha256dHash;
+
+pub use bitcoin::network::constants::Network;
+pub use bitcoin::util::privkey::Privkey;
+pub use bitcoin::Address;
+pub use bitcoin::Script;
+
 #[derive(Deserialize, Serialize, Debug)]
 pub struct Account(pub String);
 
@@ -28,5 +41,3 @@ pub enum SigHashType {
     #[serde(rename = "SINGLE|ANYONECANPAY")]
     Single_AnyoneCanPay,
 }
-
-pub use self::{address::*, block::*, blockchain::*, keys::*, script::*, transaction::*};

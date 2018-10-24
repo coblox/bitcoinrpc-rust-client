@@ -1,11 +1,12 @@
 use bitcoin::Address;
+use bitcoin::Script;
 use types::ScriptType;
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct MultiSigAddress {
-    address: Address,
+    pub address: Address,
     #[serde(rename = "redeemScript")]
-    redeem_script: String,
+    pub redeem_script: Script,
 }
 
 /// Most of the Option<T> are due to different address formats
@@ -26,7 +27,7 @@ pub struct AddressValidationResult {
     #[serde(rename = "script")]
     script_type: Option<ScriptType>,
     #[serde(rename = "hex")]
-    redeem_script: Option<String>,
+    redeem_script: Option<Script>,
     addresses: Option<Vec<Address>>,
     #[serde(rename = "sigsrequired")]
     sigs_required: Option<i32>,
@@ -198,7 +199,7 @@ mod tests {
             is_watch_only: Some(false),
             is_script: Some(true),
             script_type: Some(ScriptType::MultiSig),
-            redeem_script: Some(String::from("522103ede722780d27b05f0b1169efc90fa15a601a32fc6c3295114500c586831b6aaf2102ecd2d250a76d204011de6bc365a56033b9b3a149f679bc17205555d3c2b2854f21022d609d2f0d359e5bc0e5d0ea20ff9f5d3396cb5b1906aa9c56a0e7b5edc0c5d553ae")),
+            redeem_script: Some(Script::from(hex::decode("522103ede722780d27b05f0b1169efc90fa15a601a32fc6c3295114500c586831b6aaf2102ecd2d250a76d204011de6bc365a56033b9b3a149f679bc17205555d3c2b2854f21022d609d2f0d359e5bc0e5d0ea20ff9f5d3396cb5b1906aa9c56a0e7b5edc0c5d553ae").unwrap())),
             addresses: Some(vec![
                 "mjbLRSidW1MY8oubvs4SMEnHNFXxCcoehQ".parse().unwrap(),
                 "mo1vzGwCzWqteip29vGWWW6MsEBREuzW94".parse().unwrap(),

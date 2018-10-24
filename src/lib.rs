@@ -11,7 +11,6 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 
-pub use bitcoin::Address;
 pub use bitcoin_rpc_api::*;
 pub use bitcoincore::*;
 pub use jsonrpc_client::{ClientError, RpcError};

@@ -1,16 +1,8 @@
-use bitcoin::Address;
-use bitcoin::Script;
-use types::*;
-
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
-pub struct RedeemScript(String);
-
-from_str!(RedeemScript);
+use bitcoin::{Address, Script};
 
 #[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
 pub struct ScriptPubKey {
     pub asm: String,
-    #[serde(with = "self::serde::script")]
     pub hex: Script,
     #[serde(rename = "reqSigs")]
     pub req_sigs: Option<u32>,
