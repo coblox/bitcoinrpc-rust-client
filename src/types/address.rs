@@ -1,6 +1,6 @@
 use bitcoin::Address;
 use bitcoin::Script;
-use types::ScriptType;
+use types::script::ScriptType;
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct MultiSigAddress {

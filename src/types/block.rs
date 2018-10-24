@@ -1,6 +1,4 @@
-use bitcoin::util::hash::Sha256dHash;
-
-pub type BlockHash = Sha256dHash;
+use BlockHash;
 
 #[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
 pub struct BlockHeight(u32);
@@ -48,7 +46,7 @@ pub struct Block<T> {
 mod tests {
     use super::*;
     use serde_json;
-    use types::TransactionId;
+    use TransactionId;
 
     #[test]
     fn can_deserialize_block_struct() {
