@@ -11,8 +11,9 @@ fn main() {
 
     let client = BitcoinCoreClient::new(&url, &user, &password);
 
-    let address = client.get_new_address()
-        .unwrap()  // Handle network error here
+    let address = client
+        .get_new_address()
+        .unwrap() // Handle network error here
         .unwrap(); // Handle RpcError
 
     println!("Generated address: {:?}", address);
