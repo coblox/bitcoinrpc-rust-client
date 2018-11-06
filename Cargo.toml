@@ -11,7 +11,7 @@ keywords = ["bitcoin", "rpc", "client"]
 [dependencies]
 base64 = "0.9"
 bitcoin = { version = "0.14", features = ["serde"] }
-bitcoin_quantity = { path = "../bitcoin-quantity" }
+bitcoin_quantity = { git = "https://github.com/coblox/bitcoin-quantity" }
 hex = "0.3"
 jsonrpc_client = "0.2"
 log = "0.4"
