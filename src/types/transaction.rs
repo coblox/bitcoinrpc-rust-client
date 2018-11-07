@@ -278,7 +278,7 @@ pub struct TransactionOutput {
 impl From<TransactionOutput> for TxOut {
     fn from(tx_output: TransactionOutput) -> Self {
         TxOut {
-            value: BitcoinQuantity::from_bitcoin(tx_output.value).satoshi(), // float to int!!!
+            value: BitcoinQuantity::from_bitcoin(tx_output.value).satoshi(),
             script_pubkey: tx_output.script_pub_key.hex,
         }
     }
