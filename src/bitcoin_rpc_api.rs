@@ -3,6 +3,7 @@ use bitcoin::Script;
 use jsonrpc_client::ClientError;
 use jsonrpc_client::RpcError;
 use rpc;
+use types::address::AddressInfoResult;
 use BlockHash;
 use TransactionId;
 
@@ -79,23 +80,18 @@ pub trait BitcoinRpcApi: Send + Sync {
     }
 
     // TODO: generatetoaddress
-    // TODO: getaccountaddress
+    // TODO: getaddednodeinfo
 
-    fn get_account(
+    fn get_address_info(
         &self,
         address: &Address,
-    ) -> Result<Result<rpc::Account, RpcError>, ClientError> {
+    ) -> Result<Result<AddressInfoResult, RpcError>, ClientError> {
         unimplemented!()
     }
 
-    // TODO: getaddednodeinfo
-    // TODO: getaddressesbyaccount
-    fn get_balance(
-        &self,
-        account: Option<String>,
-        minconf: u32,
-        include_watchonly: bool,
-    ) -> Result<Result<f32, RpcError>, ClientError> {
+    // TODO: getaddressesbylabel
+
+    fn get_balance(&self) -> Result<Result<f32, RpcError>, ClientError> {
         unimplemented!()
     }
 
@@ -170,16 +166,8 @@ pub trait BitcoinRpcApi: Send + Sync {
         unimplemented!()
     }
 
-    // TODO: getreceivedbyaccount
+    // TODO: getreceivedbylabel
     // TODO: getreceivedbyaddress
-
-    fn get_transaction(
-        &self,
-        tx: &TransactionId,
-    ) -> Result<Result<rpc::Transaction, RpcError>, ClientError> {
-        unimplemented!()
-    }
-
     // TODO: gettxout
     // TODO: gettxoutsetinfo
     // TODO: getunconfirmedbalance
@@ -193,11 +181,11 @@ pub trait BitcoinRpcApi: Send + Sync {
     // TODO: keypoolrefill
     // TODO: invalidateblock
     // TODO: keypoolrefill
-    // TODO: listaccounts
+    // TODO: listlabels
     // TODO: listaddressgroupings
     // TODO: listbanned
     // TODO: listlockunspent
-    // TODO: listreceivedbyaccount
+    // TODO: listreceivedbylabel
     // TODO: listreceivedbyaddress
     // TODO: listsinceblock
     // TODO: listtransactions
@@ -212,13 +200,11 @@ pub trait BitcoinRpcApi: Send + Sync {
     }
 
     // TODO: lockunspent
-    // TODO: move
     // TODO: ping
     // TODO: preciousblock
     // TODO: prioritisetransaction
     // TODO: pruneblockchain
     // TODO: removeprunedfunds
-    // TODO: sendfrom
     // TODO: sendmany
 
     fn send_raw_transaction(
@@ -235,7 +221,7 @@ pub trait BitcoinRpcApi: Send + Sync {
     ) -> Result<Result<TransactionId, RpcError>, ClientError> {
         unimplemented!()
     }
-    // TODO: setaccount
+    // TODO: setlabel
     // TODO: setban
     // TODO: setgenerate
     // TODO: setnetworkactive
@@ -243,16 +229,17 @@ pub trait BitcoinRpcApi: Send + Sync {
     // TODO: signmessage
     // TODO: signmessagewithprivkey
 
-    fn sign_raw_transaction(
+    fn sign_raw_transaction_with_key(
         &self,
         tx: &rpc::SerializedRawTransaction,
-        dependencies: Option<Vec<&rpc::TransactionOutputDetail>>,
         private_keys: Option<Vec<&rpc::PrivateKey>>,
+        dependencies: Option<Vec<&rpc::TransactionOutputDetail>>,
         signature_hash_type: Option<rpc::SigHashType>,
     ) -> Result<Result<rpc::SigningResult, RpcError>, ClientError> {
         unimplemented!()
     }
 
+    // TODO: signrawtransactionwithwallet
     // TODO: stop
     // TODO: submitblock
 

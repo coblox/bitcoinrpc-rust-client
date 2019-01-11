@@ -1,6 +1,6 @@
 [package]
 name = "bitcoin_rpc_client"
-version = "0.4.0"
+version = "0.5.0"
 authors = [ "CoBloX developers <team@coblox.tech>" ]
 description = "Rust client library for talking to Bitcoin Core nodes using JsonRPC."
 license = "MIT OR Apache-2.0"
@@ -20,4 +20,4 @@ serde_json = "1"
 
 [dev-dependencies]
 env_logger = "0.5"
-testcontainers = "0.3"
+testcontainers = "0.4"

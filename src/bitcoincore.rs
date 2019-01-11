@@ -8,6 +8,7 @@ use jsonrpc_client::{
 use rpc;
 use serde::{de::DeserializeOwned, ser::Serialize};
 use std::fmt::Debug;
+use types::address::AddressInfoResult;
 use BitcoinRpcApi;
 use BlockHash;
 use TransactionId;
@@ -162,32 +163,20 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn get_account(
+    fn get_address_info(
         &self,
         address: &Address,
-    ) -> Result<Result<rpc::Account, RpcError>, ClientError> {
+    ) -> Result<Result<AddressInfoResult, RpcError>, ClientError> {
         self.send(&RpcRequest::new1(
             JsonRpcVersion::V1,
             "42",
-            "getaccount",
+            "getaddressinfo",
             address,
         ))
     }
 
-    fn get_balance(
-        &self,
-        account: Option<String>,
-        minconf: u32,
-        include_watchonly: bool,
-    ) -> Result<Result<f32, RpcError>, ClientError> {
-        self.send(&RpcRequest::new3(
-            JsonRpcVersion::V1,
-            "42",
-            "getbalance",
-            account.unwrap_or("*".to_string()),
-            minconf,
-            include_watchonly,
-        ))
+    fn get_balance(&self) -> Result<Result<f32, RpcError>, ClientError> {
+        self.send(&RpcRequest::new0(JsonRpcVersion::V1, "42", "getbalance"))
     }
 
     fn get_best_block_hash(&self) -> Result<Result<BlockHash, RpcError>, ClientError> {
@@ -268,18 +257,6 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         self.get_raw_transaction(tx, true)
     }
 
-    fn get_transaction(
-        &self,
-        tx: &TransactionId,
-    ) -> Result<Result<rpc::Transaction, RpcError>, ClientError> {
-        self.send(&RpcRequest::new1(
-            JsonRpcVersion::V1,
-            "42",
-            "gettransaction",
-            tx,
-        ))
-    }
-
     fn list_unspent(
         &self,
         min_confirmations: rpc::TxOutConfirmations,
@@ -329,20 +306,20 @@ impl BitcoinRpcApi for BitcoinCoreClient {
         ))
     }
 
-    fn sign_raw_transaction(
+    fn sign_raw_transaction_with_key(
         &self,
         tx: &rpc::SerializedRawTransaction,
-        dependencies: Option<Vec<&rpc::TransactionOutputDetail>>,
         private_keys: Option<Vec<&rpc::PrivateKey>>,
+        dependencies: Option<Vec<&rpc::TransactionOutputDetail>>,
         signature_hash_type: Option<rpc::SigHashType>,
     ) -> Result<Result<rpc::SigningResult, RpcError>, ClientError> {
         self.send(&RpcRequest::new4(
             JsonRpcVersion::V1,
             "42",
-            "signrawtransaction",
+            "signrawtransactionwithkey",
             tx,
-            dependencies,
             private_keys,
+            dependencies,
             signature_hash_type,
         ))
     }

@@ -15,6 +15,19 @@ use std::collections::HashMap;
 mod common;
 
 #[test]
+fn get_address_info() {
+    setup();
+
+    assert_successful_result(|client| {
+        let test_client = BitcoinCoreTestClient::new(client);
+
+        let alice = test_client.an_address();
+
+        client.get_address_info(&alice)
+    })
+}
+
+#[test]
 fn add_multisig_address() {
     setup();
 
@@ -53,42 +66,20 @@ fn generate() {
 }
 
 #[test]
-fn getaccount() {
-    setup();
-
-    assert_successful_result(|client| {
-        let address = BitcoinCoreTestClient::new(client).an_address();
-
-        client.get_account(&address)
-    })
-}
-
-#[test]
 fn get_balance() {
     setup();
     assert_successful_result(|client| {
         || client.generate(101).unwrap().unwrap();
-        client.get_balance(None, 1, false)
+        client.get_balance()
     })
 }
 
 #[test]
-fn listunspent() {
+fn list_unspent() {
     setup();
     assert_successful_result(|client| {
         let _ = client.generate(101);
         client.list_unspent(rpc::TxOutConfirmations::Unconfirmed, Some(101), None)
-    })
-}
-
-#[test]
-fn gettransaction() {
-    setup();
-
-    assert_successful_result(|client| {
-        let tx_id = BitcoinCoreTestClient::new(client).a_transaction_id();
-
-        client.get_transaction(&tx_id)
     })
 }
 
@@ -114,7 +105,7 @@ fn get_block_verbose() {
 }
 
 #[test]
-fn getbestblockhash() {
+fn get_best_block_hash() {
     setup();
 
     assert_successful_result(|client| {
@@ -125,7 +116,7 @@ fn getbestblockhash() {
 }
 
 #[test]
-fn getblockhash() {
+fn get_block_hash() {
     setup();
 
     assert_successful_result(|client| {
@@ -251,10 +242,10 @@ fn sign_raw_transaction() {
             .unwrap()
             .unwrap();
 
-        client.sign_raw_transaction(
+        client.sign_raw_transaction_with_key(
             &tx,
-            None,
             Some(vec![&alice_private_key]),
+            None,
             Some(rpc::SigHashType::Single_AnyoneCanPay),
         )
     })
