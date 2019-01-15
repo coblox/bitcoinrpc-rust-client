@@ -79,7 +79,8 @@ mod tests {
             Block {
                 hash: BlockHash::from_hex(
                     "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048"
-                ).unwrap(),
+                )
+                .unwrap(),
                 confirmations: 447014,
                 size: 215,
                 strippedsize: 215,
@@ -89,11 +90,10 @@ mod tests {
                 version_hex: "00000001".to_string(),
                 merkleroot: "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098"
                     .to_string(),
-                tx: vec![
-                    TransactionId::from_hex(
-                        "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098",
-                    ).unwrap(),
-                ],
+                tx: vec![TransactionId::from_hex(
+                    "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098",
+                )
+                .unwrap(),],
                 time: 1231469665,
                 mediantime: 1231469665,
                 nonce: 2573394689,
@@ -104,12 +104,14 @@ mod tests {
                 previousblockhash: Some(
                     BlockHash::from_hex(
                         "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
-                    ).unwrap()
+                    )
+                    .unwrap()
                 ),
                 nextblockhash: Some(
                     BlockHash::from_hex(
                         "000000006a625f06636b8bb6ac7b960a8d03705d1ace08b1a19da3fdcc99ddbd",
-                    ).unwrap()
+                    )
+                    .unwrap()
                 ),
             }
         )

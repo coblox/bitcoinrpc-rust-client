@@ -9,6 +9,12 @@ pub struct MultiSigAddress {
     pub redeem_script: Script,
 }
 
+#[derive(Deserialize, Serialize, Debug, PartialEq)]
+pub struct Label {
+    pub name: String,
+    pub purpose: String,
+}
+
 /// Most of the Option<T> are due to different address formats
 /// Different fields are returned for P2PKH and P2SH addresses.
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
@@ -39,6 +45,43 @@ pub struct AddressValidationResult {
     hd_key_path: Option<String>,
     #[serde(rename = "hdmasterkeyid")]
     hd_masterkey_id: Option<String>,
+}
+
+#[derive(Deserialize, Serialize, Debug, PartialEq)]
+pub struct AddressInfoResult {
+    address: Address,
+    #[serde(rename = "scriptPubKey")]
+    script_pub_key: String,
+    #[serde(rename = "ismine")]
+    is_mine: bool,
+    #[serde(rename = "iswatchonly")]
+    is_watch_only: bool,
+    #[serde(rename = "isscript")]
+    is_script: bool,
+    #[serde(rename = "iswitness")]
+    is_witness: bool,
+    witness_version: Option<i32>,
+    witness_program: Option<String>,
+    #[serde(rename = "script")]
+    script_type: Option<ScriptType>,
+    #[serde(rename = "hex")]
+    redeem_script: Option<Script>,
+    pubkeys: Option<Vec<String>>,
+    #[serde(rename = "sigsrequired")]
+    signatures_required: Option<i32>,
+    pubkey: Option<String>,
+    // embedded: ignored
+    #[serde(rename = "iscompressed")]
+    is_compressed: Option<bool>,
+    label: String,
+    timestamp: Option<u64>,
+    #[serde(rename = "hdkeypath")]
+    hd_keypath: Option<String>,
+    #[serde(rename = "hdseedid")]
+    hd_seed_id: Option<String>,
+    #[serde(rename = "hdmasterkeyid")]
+    hd_master_key_id: Option<String>,
+    labels: Vec<Label>,
 }
 
 #[cfg(test)]

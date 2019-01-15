@@ -21,8 +21,12 @@ pub enum ScriptType {
     MultiSig,
     #[serde(rename = "nonstandard")]
     NonStandard,
+    #[serde(rename = "scripthash")]
+    ScriptHash,
     #[serde(rename = "witness_v0_keyhash")]
     WitnessPubKeyHash,
+    #[serde(rename = "witness_unknown")]
+    WitnessUnknown,
     /// Appears for generated transactions
     #[serde(rename = "nulldata")]
     NullData,
