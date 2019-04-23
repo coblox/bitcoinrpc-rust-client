@@ -1,17 +1,17 @@
-use bitcoin::util::privkey::Privkey;
+use bitcoin::util::key;
 use serde::{de, export::fmt, Deserialize, Deserializer, Serialize, Serializer};
 use std::{fmt as std_fmt, str::FromStr};
 
 #[derive(PartialEq)]
-pub struct PrivateKey(Privkey);
+pub struct PrivateKey(key::PrivateKey);
 
-impl From<Privkey> for PrivateKey {
-    fn from(p: Privkey) -> Self {
+impl From<key::PrivateKey> for PrivateKey {
+    fn from(p: key::PrivateKey) -> Self {
         PrivateKey(p)
     }
 }
 
-impl From<PrivateKey> for Privkey {
+impl From<PrivateKey> for key::PrivateKey {
     fn from(p: PrivateKey) -> Self {
         p.0
     }
@@ -44,7 +44,8 @@ impl<'de> Deserialize<'de> for PrivateKey {
             where
                 E: de::Error,
             {
-                let privkey = Privkey::from_str(v).map_err(|err| E::custom(format!("{}", err)))?;
+                let privkey =
+                    key::PrivateKey::from_str(v).map_err(|err| E::custom(format!("{}", err)))?;
                 Ok(PrivateKey(privkey))
             }
         }
@@ -67,15 +68,16 @@ mod tests {
     #[test]
     fn serialize_private_key() {
         let private_key = PrivateKey(
-            Privkey::from_str("cQ1DDxScq1rsYDdCUBywawwNVWTMwnLzCKCwGndC6MgdNtKPQ5Hz").unwrap(),
+            key::PrivateKey::from_str("cQ1DDxScq1rsYDdCUBywawwNVWTMwnLzCKCwGndC6MgdNtKPQ5Hz")
+                .unwrap(),
         );
 
         let se_private_key = serde_json::to_string(&private_key).unwrap();
         let de_private_key = serde_json::from_str::<PrivateKey>(se_private_key.as_str()).unwrap();
 
-        let priv_key: Privkey = private_key.into();
-        let de_priv_key: Privkey = de_private_key.into();
+        let priv_key: key::PrivateKey = private_key.into();
+        let de_priv_key: key::PrivateKey = de_private_key.into();
 
-        assert_eq!(priv_key.secret_key(), de_priv_key.secret_key());
+        assert_eq!(priv_key.key, de_priv_key.key);
     }
 }
