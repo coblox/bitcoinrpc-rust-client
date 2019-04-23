@@ -1,8 +1,12 @@
 use bitcoin::{
     self,
-    blockdata::{script::Script, transaction::Transaction as BitcoinTransaction},
+    blockdata::{
+        script::Script, transaction::OutPoint, transaction::Transaction as BitcoinTransaction,
+        transaction::TxIn, transaction::TxOut,
+    },
     Address,
 };
+use bitcoin_quantity::BitcoinQuantity;
 use std::collections::HashMap;
 use types::script::ScriptPubKey;
 use BlockHash;
@@ -69,7 +73,7 @@ pub struct DecodedRawTransaction {
     pub vout: Vec<TransactionOutput>,
 }
 
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Clone, Deserialize, Serialize, Debug, PartialEq)]
 pub struct VerboseRawTransaction {
     pub txid: TransactionId,
     pub hash: String,
@@ -86,8 +90,27 @@ pub struct VerboseRawTransaction {
     pub blocktime: u64,
 }
 
+impl From<VerboseRawTransaction> for BitcoinTransaction {
+    fn from(verbose_raw_tx: VerboseRawTransaction) -> Self {
+        BitcoinTransaction {
+            version: verbose_raw_tx.version,
+            lock_time: verbose_raw_tx.locktime,
+            input: verbose_raw_tx
+                .vin
+                .into_iter()
+                .map(|vin| vin.into())
+                .collect(),
+            output: verbose_raw_tx
+                .vout
+                .into_iter()
+                .map(|vout| vout.into())
+                .collect(),
+        }
+    }
+}
+
 // TODO: Create serializer and deserializer that can create this struct from the only the hex string
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Clone, Deserialize, Serialize, Debug, PartialEq)]
 pub struct ScriptSig {
     pub asm: String,
     pub hex: Script,
@@ -96,16 +119,42 @@ pub struct ScriptSig {
 /// Transaction input can either be a regular transaction or a coinbase transaction.
 /// They have different fields, but most of the time, we will be interacting with regular transactions.
 /// For deserialization compatibility, we define all the fields as Option<T> and provide accessors.
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Clone, Deserialize, Serialize, Debug, PartialEq)]
 pub struct TransactionInput {
     pub txid: Option<TransactionId>,
     pub vout: Option<u32>,
     #[serde(rename = "scriptSig")]
     pub script_sig: Option<ScriptSig>,
-
     pub coinbase: Option<String>,
+    pub sequence: u32,
+    #[serde(rename = "txinwitness", default)]
+    pub witness: Vec<String>,
+}
 
-    pub sequence: u64,
+impl From<TransactionInput> for TxIn {
+    fn from(tx_input: TransactionInput) -> Self {
+        let previous_output = tx_input.txid.map_or(OutPoint::null(), |txid| OutPoint {
+            txid,
+            vout: tx_input
+                .vout
+                .expect("BitcoinRPC returned incomplete previous transaction output"),
+        });
+        let sequence = tx_input.sequence;
+        let script_sig = tx_input
+            .script_sig
+            .map_or(Script::new(), |script| script.hex);
+
+        TxIn {
+            previous_output,
+            script_sig,
+            sequence,
+            witness: tx_input
+                .witness
+                .iter()
+                .map(|item| std_hex::decode(item).expect("BitcoinRPC returned invalid hex"))
+                .collect(),
+        }
+    }
 }
 
 impl TransactionInput {
@@ -129,7 +178,7 @@ impl TransactionInput {
             .expect("This is NOT a coinbase transaction.")
     }
 
-    pub fn sequence(&self) -> u64 {
+    pub fn sequence(&self) -> u32 {
         self.sequence
     }
 }
@@ -140,6 +189,15 @@ pub struct TransactionOutput {
     pub n: u32,
     #[serde(rename = "scriptPubKey")]
     pub script_pub_key: ScriptPubKey,
+}
+
+impl From<TransactionOutput> for TxOut {
+    fn from(tx_output: TransactionOutput) -> Self {
+        TxOut {
+            value: BitcoinQuantity::from_bitcoin(tx_output.value).satoshi(),
+            script_pubkey: tx_output.script_pub_key.hex,
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
@@ -370,6 +428,7 @@ mod tests {
                     }),
                     coinbase: None,
                     sequence: 4294967295,
+                    witness: Vec::new(),
                 }
             ],
             vout: vec![
@@ -471,6 +530,7 @@ mod tests {
                     script_sig: None,
                     coinbase: Some(String::from("03142d010101")),
                     sequence: 4294967295,
+                    witness: Vec::new(),
                 }
             ],
             vout: vec![

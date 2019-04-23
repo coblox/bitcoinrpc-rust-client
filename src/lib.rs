@@ -3,6 +3,7 @@
 extern crate base64;
 extern crate bitcoin;
 extern crate bitcoin_hashes;
+extern crate bitcoin_quantity;
 extern crate hex as std_hex;
 extern crate jsonrpc_client;
 #[macro_use]

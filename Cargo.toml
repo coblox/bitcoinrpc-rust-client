@@ -12,6 +12,7 @@ keywords = ["bitcoin", "rpc", "client"]
 base64 = "0.9"
 bitcoin = { version = "0.18", features = ["use-serde"] }
 bitcoin_hashes = "0.3.2"
+bitcoin_quantity = { git = "https://github.com/coblox/bitcoin-quantity" }
 hex = "0.3"
 jsonrpc_client = "0.2"
 log = "0.4"
