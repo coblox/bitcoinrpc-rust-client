@@ -18,7 +18,7 @@ mod bitcoincore;
 mod stub_rpc_client;
 mod types;
 
-// Re-export types from rust-bitcoin crates so explicit dependency is not necessarily needed
+// Re-export types from rust-bitcoin crates so explicit dependency is not needed
 pub type TransactionId = bitcoin_hashes::sha256d::Hash;
 pub type BlockHash = bitcoin_hashes::sha256d::Hash;
 
