@@ -45,6 +45,7 @@ pub struct Block<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use bitcoin_hashes::hex::FromHex;
     use serde_json;
     use TransactionId;
 

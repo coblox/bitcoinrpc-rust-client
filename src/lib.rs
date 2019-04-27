@@ -2,6 +2,7 @@
 
 extern crate base64;
 extern crate bitcoin;
+extern crate bitcoin_hashes;
 extern crate hex as std_hex;
 extern crate jsonrpc_client;
 #[macro_use]
@@ -16,12 +17,12 @@ mod bitcoincore;
 mod stub_rpc_client;
 mod types;
 
-// Re-export types from rust-bitcoin so explicit dependency is not necessarily needed
-pub type TransactionId = bitcoin::util::hash::Sha256dHash;
-pub type BlockHash = bitcoin::util::hash::Sha256dHash;
+// Re-export types from rust-bitcoin crates so explicit dependency is not needed
+pub type TransactionId = bitcoin_hashes::sha256d::Hash;
+pub type BlockHash = bitcoin_hashes::sha256d::Hash;
 
 pub use bitcoin::network::constants::Network;
-pub use bitcoin::util::privkey::Privkey;
+pub use bitcoin::util::key::PrivateKey;
 pub use bitcoin::Address;
 pub use bitcoin::Script;
 
