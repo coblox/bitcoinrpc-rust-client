@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.com/coblox/bitcoinrpc-rust-client.svg?branch=master)](https://travis-ci.com/coblox/bitcoinrpc-rust-client)
 [![Crates.io](https://img.shields.io/crates/v/bitcoin_rpc_client.svg)](https://crates.io/crates/bitcoin_rpc_client)
 
+## Deprecated. This library is unmaintained in favor of https://github.com/rust-bitcoin/rust-bitcoincore-rpc
+
 This crate provides a Rust interface to the Bitcoin JSON-RPC API.
 
 It is currently work-in-progress as not all RPC calls are implemented.

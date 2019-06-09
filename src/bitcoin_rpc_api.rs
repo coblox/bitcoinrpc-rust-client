@@ -7,6 +7,10 @@ use types::address::AddressInfoResult;
 use BlockHash;
 use TransactionId;
 
+#[deprecated(
+    since = "0.6.1",
+    note = "This library is deprecated in favor of bitcoincore-rpc."
+)]
 #[allow(unused_variables)]
 pub trait BitcoinRpcApi: Send + Sync {
     // Order as per: https://bitcoin.org/en/developer-reference#rpcs

@@ -1,6 +1,6 @@
 [package]
 name = "bitcoin_rpc_client"
-version = "0.6.0"
+version = "0.6.1"
 authors = [ "CoBloX developers <team@coblox.tech>" ]
 description = "Rust client library for talking to Bitcoin Core nodes using JsonRPC."
 license = "MIT OR Apache-2.0"
