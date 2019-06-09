@@ -1,3 +1,4 @@
+#![allow(deprecated)]
 extern crate bitcoin_rpc_client;
 
 use bitcoin_rpc_client::BitcoinCoreClient;
