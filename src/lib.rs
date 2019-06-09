@@ -1,4 +1,5 @@
 #![cfg_attr(test, deny(warnings))]
+#![allow(deprecated)]
 
 extern crate base64;
 extern crate bitcoin;

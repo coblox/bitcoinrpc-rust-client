@@ -1,3 +1,4 @@
+#![allow(deprecated)]
 extern crate bitcoin_rpc_client;
 extern crate jsonrpc_client;
 #[macro_use]

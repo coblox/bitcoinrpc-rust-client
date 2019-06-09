@@ -18,6 +18,10 @@ struct RetryConfig {
     interval: u64,
 }
 
+#[deprecated(
+    since = "0.6.1",
+    note = "This library is deprecated in favor of bitcoincore-rpc."
+)]
 pub struct BitcoinCoreClient {
     client: RpcClient,
     retry_config: Option<RetryConfig>,
